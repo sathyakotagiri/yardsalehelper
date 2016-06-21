@@ -13,6 +13,9 @@ Merge local feature branch with local develop branch:
 git checkout develop (switch to develop branch)  
 git merge feature_branch  
 
+### Openshift commands
+rhc deploy master -a yardsalehelper
+
 ### File structure
 
 ###### /project build.sbt
