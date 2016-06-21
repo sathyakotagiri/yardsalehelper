@@ -1,0 +1,9 @@
+.blue-btn {
+    @include buttonlink($blue-ivy);
+    display: inline-block;
+    margin-top: 2em;
+}
+.red-btn {
+    @extend .blue-btn;
+    @include buttonlink($light-red);
+}

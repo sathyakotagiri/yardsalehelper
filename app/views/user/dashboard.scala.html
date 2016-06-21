@@ -1,0 +1,31 @@
+@(title: String)(content: Html)
+
+@main(title) {
+
+    <div id='dashboard-container'>
+       
+        <div id='dashboard-nav'>
+            <ul>
+                <li><img src="@routes.Assets.versioned("img/nav-store-front.svg")">OPTION</li>                
+            </ul>
+        </div>
+        
+        <div id='dashboard-main'>
+            <div id='top-nav'>
+                <span id='leftmost'>Welcome to Yard Sale Helper</span>
+                <span><a href='/logout'>LOG OUT</a></span>
+                <span><i class="fa fa-cog"></i></span>
+                @if(session.isEmpty()) {
+                <span id='rightmost'>Hello, please <a href='/'>log in</a>.</span>
+                } else {
+                    <span id='rightmost'>@session.get("name")</span>
+                }
+            </div>
+            <div id='main-content'>
+                @content
+            </div>
+        </div>
+        
+    </div>
+
+}

@@ -1,0 +1,47 @@
+.auth-containers {
+    @include center(column);
+    margin: auto;
+    padding: 2.5em 5em;
+    border: 2px solid $platinum;
+    &:hover {
+        border-color: lighten($blue-ivy, 30%);
+    }
+    @include transition(border-color, 0.5s, ease);
+    
+    h1 {
+        @include font(18px);
+        margin-bottom: 1em;
+        color: $dark-grey;
+    }
+    
+    span, input {
+        @include font;
+        display: block;
+        margin-top: 1em;
+        line-height: 1.2em;
+    }
+    input {
+        width: 20em;
+        height: 2em;
+        padding: 0 0.5em;
+        border: 1px solid $platinum;
+        outline: 0;
+        &:focus {
+            border-color: darken($platinum, 10%);
+        }
+    }
+    #btns {
+        @include center;
+    }
+    .red-btn {
+        margin-left: 1.25em;
+    }
+    .auth-link {
+        @include link($blue-ivy);
+        display: inline-block;
+        margin-top: 1em;
+    }
+    #loginMsg, #signupMsg {
+        margin-top: 2em;
+    }
+}

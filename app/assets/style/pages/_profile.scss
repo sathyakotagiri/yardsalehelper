@@ -1,0 +1,27 @@
+#user-profile {
+    padding: 2em;
+    @include center(column);
+    align-items: flex-start;
+    h5 {
+        @include font(22px);
+        margin: 0 0 1.5em 2em;
+    }
+    div {
+        margin: 1em 0 1em 2.5em;
+        .field {
+            display: inline-block;
+            width: 15em;
+        }
+    }
+    a {
+        display: inline-block;
+        margin: 1em 1em 0 0;
+    }
+    .input {
+        display: none;  
+        @include font;
+        width: 20em;
+        height: 2em;
+        padding: 0 0.5em;
+    }
+}

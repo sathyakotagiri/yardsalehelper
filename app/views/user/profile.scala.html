@@ -1,0 +1,36 @@
+@dashboard("Your Profile") {
+
+<div id='user-profile'>
+    <h5>@session.get("name")</h5>
+    <div><span class='field'>Username: </span><span>@session.get("username")</span></div>
+    <div><span class='field'>Account type: </span><span>guest</span></div>
+    <div><span class='field'>Email: </span><span class='text'>@session.get("email")</span><input class='input' type='text' name='email' placeholder=@session.get("email")></div>
+    <div><span class='field'>Name: </span><span class='text'>@session.get("name")</span><input class='input' type='text' name='name' placeholder=@session.get("name")></div>
+    <div><span class='field'>Phone: </span><span class='text'>@session.get("phone")</span><input class='input' type='text' name='phone' placeholder=@session.get("phone")></div>
+    <div><span class='field'>Address: </span><span class='text'>@session.get("address")</span><input class='input' type='text' name='address' placeholder=@session.get("address")></div>
+    <div>
+        <a class='blue-btn' id='edit'>Edit Profile</a>
+        <a class='red-btn'>Change Password</a>
+    </div>
+    
+    <script>
+        $("#edit").click(function() {
+            $(".text").hide();
+            $(".input").show();
+        });
+        $(".input").blur(function() {
+            var key = this.attr("name");
+            var val = this.val();
+            $.post('/editProfile', 
+                   {key: val},
+                   function(data, status) {
+                        console.log(status);
+                   }
+            );
+            $(".input").hide();
+            $(".text").show();
+        });
+    </script>
+</div>
+
+}

@@ -1,0 +1,60 @@
+#dashboard-container {
+    width: 100%;
+    height: 100%;
+}
+#dashboard-nav {
+    width: 25%;
+    height: inherit;
+    position: fixed;
+    background-color: $blue-grey;
+    ul {
+        width: 100%;
+        @include center(column);
+        align-items: flex-start;
+        padding: 2em 0;
+        li {
+            @include font(18px);
+            color: $light-grey;
+            img {
+                width: 48px;
+                height: 48px;
+                vertical-align: middle;
+                margin-left: 4.25em;
+                margin-right: 1em;
+            }
+        }
+    }
+}
+#dashboard-main {
+    width: 75%;
+    height: inherit;
+    float: right;
+    @include font(18px);
+}
+#top-nav {
+    width: 100%;
+    height: 3.5em;
+    line-height: 3.5em;
+    @include center;
+    color: $light-blue-grey;
+    border-bottom: 1px solid $platinum;
+    span {
+        border-right: 1px solid $platinum;
+        height: inherit;
+        line-height: inherit;
+        padding: 0 1.5em;
+        text-align: center;
+    }
+    i {
+        font-size: 20px;
+    }
+    a {
+        @include link($light-blue-grey);
+    }
+}
+#leftmost {
+    width: 60%;
+}
+#rightmost {
+    border-right: none;
+}

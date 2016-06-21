@@ -1,0 +1,31 @@
+@(loginMsg: String)
+
+@main("Log In to Yard Sale Helper") {
+
+    <div class='auth-containers'>
+        
+        <h1>WELCOME TO THE ULTIMATE YARD SALE HELPER, PLEASE LOG IN</h1>
+        
+        <form id='login-form' method="post" action="/login">
+            <div>
+                <span>USERNAME</span>
+                <input type='text' name='username'>
+            </div>
+        
+            <div>
+                <span>PASSWORD</span>
+                <input type='password' name='pwd'>
+            </div>
+        
+            <div id='btns'>
+                <a class='blue-btn' onclick="document.getElementById('login-form').submit();">LOG IN</a>
+                <a class='red-btn' onclick="document.getElementById('login-form').reset();">CLEAR</a>
+            </div>
+        </form>
+        <span id='loginMsg'>@loginMsg</span>
+        
+        <span>Don't Have an Account yet? &nbsp; <a class='auth-link'  href='/signup'>Sign Up Here!</a></span>
+        
+    </div>
+
+}

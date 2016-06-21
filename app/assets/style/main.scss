@@ -1,0 +1,9 @@
+@import 'shared/reset';
+@import 'shared/palette';
+@import 'shared/mixins';
+@import 'shared/layout';
+@import 'shared/components';
+
+@import 'pages/auth';
+@import 'pages/dashboard';
+@import 'pages/profile'

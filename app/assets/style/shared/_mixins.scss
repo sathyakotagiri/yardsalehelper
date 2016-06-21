@@ -1,0 +1,48 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+//Default font-size is 16px, font-weight is 400, font-family is Open Sans, sans-serif
+@mixin font($size: 16px, $weight: 400) {
+    font-size: $size;
+    font-weight: $weight;
+    font-family: 'Open Sans';
+    letter-spacing: 0.1em;
+}
+
+//center elements using flex display
+@mixin center($direction: row) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+}
+
+//CSS3 transition
+@mixin transition($options...) {
+    -webkit-transition: $options;
+    -moz-transition: $options;
+    -o-transition: $options;
+    transition: $options;
+}
+
+//button-like links
+@mixin buttonlink($colour) {
+    @include font;
+    text-decoration: none;
+    color: $white;
+    background-color: $colour;
+    padding: 0.75em 2em;
+    &:hover {
+        background-color: darken($colour, 5%);
+        cursor: pointer;
+    }
+}
+
+//hover effect for links
+@mixin link($colour) {
+    color: $colour;
+    text-decoration: none;
+    &:hover {
+        cursor: pointer;
+        color: darken($colour, 10%);
+    }
+}

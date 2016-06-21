@@ -1,0 +1,39 @@
+@(signupMsg: String)
+
+@main("Guest Sign Up") {
+
+    <div class='auth-containers'>
+               
+        <form id='signup-form' method="post" action="/signup/register">
+            <div>
+                <span>USERNAME</span>
+                <input type='text' name='username'>
+            </div>
+
+            <div>
+                <span>PASSWORD</span>
+                <input type='password' name='pwd'>
+            </div>
+
+            <div>
+                <span>EMAIL</span>
+                <input type='email' name='email'>
+            </div>
+
+            <div>
+                <span>NAME</span>
+                <input type='text' name='name'>
+            </div>
+            
+            <div id='btns'>
+                <a class='blue-btn' onclick="document.getElementById('signup-form').submit();">SIGN UP</a>
+                <a class='red-btn' onclick="document.getElementById('signup-form').reset();">CLEAR</a>
+            </div>
+        </form>
+        <span id='signupMsg'>@signupMsg</span>
+        
+        <span>Already have an account? &nbsp; <a class='auth-link' href='/'>Log in!</a></span>
+        
+    </div>
+
+}
