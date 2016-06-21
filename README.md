@@ -3,18 +3,22 @@
 ### CS2340 Project
 ###### Note: Instead of pushing to master, please push to branch 'develop'. This is to prevent the master branch from being polluted when mistakes are made.
 
+###### Important! Each time you want to run the app using 'activator run', do this first:  
+###### rhc port-forward -a yardsalehelper
+###### Then open a new console inside the command line to activator run the app
+
 ### Git Instruction 
 Clone a specific branch (e.g. develop): git clone -b develop remote_repo_url **Don't omit -b**  
 Check what branch you are on, and your progress: git status  
 Create a new branch: git branch branch_name  
 Switch to another branch: git checkout branch_name  
-Push to specific branch (e.g. develop): git push -u origin develop  
+  
+While working inside the folder cloned from openshift:
+Push to specific branch on gt github(e.g. develop): git push -u gt develop  
+  
 Merge local feature branch with local develop branch:  
 git checkout develop (switch to develop branch)  
 git merge feature_branch  
-
-### Openshift commands
-rhc deploy master -a yardsalehelper
 
 ### File structure
 
