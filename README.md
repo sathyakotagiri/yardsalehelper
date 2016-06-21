@@ -14,7 +14,7 @@ Create a new branch: git branch branch_name
 Switch to another branch: git checkout branch_name  
   
 While working inside the folder cloned from openshift:
-Push to specific branch on gt github(e.g. develop): git push -u gt develop  
+Push to specific branch on gt github(e.g. develop): git push gt HEAD:develop  
   
 Merge local feature branch with local develop branch:  
 git checkout develop (switch to develop branch)  
