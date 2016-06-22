@@ -9,6 +9,9 @@ GET       /logout                 controllers.AuthController.logout
 
 # User routes
 GET     /user                    controllers.UserController.profile
+GET    /profile                 controllers.UserController.profile
+POST   /profile/edit        controllers.UserController.editProfile 
+POST  /profile/changepass   controllers.UserController.changePass
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file          controllers.Assets.versioned(path="/public", file: Asset)

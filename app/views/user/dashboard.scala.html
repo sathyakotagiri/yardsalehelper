@@ -1,3 +1,9 @@
+@*
+ * This template provides common components (e.g. nav bars)
+ * for all user functionalities. Content will change based on which functionality
+ * is currently chosen.
+ *@
+
 @(title: String)(content: Html)
 
 @main(title) {
@@ -14,7 +20,7 @@
             <div id='top-nav'>
                 <span id='leftmost'>Welcome to Yard Sale Helper</span>
                 <span><a href='/logout'>LOG OUT</a></span>
-                <span><i class="fa fa-cog"></i></span>
+                <span><a href='/profile'><i class="fa fa-cog"></i></a></span>
                 @if(session.isEmpty()) {
                 <span id='rightmost'>Hello, please <a href='/'>log in</a>.</span>
                 } else {

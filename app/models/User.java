@@ -19,6 +19,9 @@ public class User extends Model {
     
     public static Finder<String, User> find = new Finder<String, User>(User.class);
     
+    /**
+     * Getters for private fields.
+     */
     public String getUsername() {
         return username;
     }
@@ -38,6 +41,9 @@ public class User extends Model {
         return address;
     }
     
+    /**
+     * Setters for private fields.
+     */
     public void setUsername(String username) {
         this.username = username;
     }

@@ -18,10 +18,24 @@
         margin: 1em 1em 0 0;
     }
     .input {
-        display: none;  
         @include font;
         width: 20em;
         height: 2em;
         padding: 0 0.5em;
+    }
+    .info {
+        display: none;
+    }
+    #save {
+        display: none;
+    }
+    #save.show {
+        display: inline-block;
+    }
+    #pass {
+        display: none;
+    }
+    #pass-status {
+        @include font(13px);
     }
 }

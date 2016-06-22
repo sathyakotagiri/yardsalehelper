@@ -15,13 +15,24 @@ public class AuthController extends Controller {
     @Inject
     FormFactory formF;
     
+    /**
+     * Render login page as home page.
+     */
     public Result index() {
         return ok(login.render(""));
     }
+    
+    /**
+     * Render signup page.
+     */
     public Result signup() {
         return ok(signup.render(""));
     }
     
+    /**
+     * Authenticate user. Return response with message if authentication
+     * fails. Otherwise redirect the user to the user home page.
+     */
     public Result authenticate() {
         String username = Form.form().bindFromRequest().get("username");
         String pwd = Form.form().bindFromRequest().get("pwd");
@@ -33,19 +44,18 @@ public class AuthController extends Controller {
         if (user == null) {
             return ok(login.render("User not found"));
         } else if (!user.getPwd().equals(pwd)) {
-            return ok(login.render("Authentication fails. Please check your credentials"));
+            return ok(login.render("Authentication fails. Please check your credentials."));
         } else {
-            String phone = user.getPhone();
-            String address = user.getAddress();
             session("username", username);
             session("name", user.getName());
-            session("email", user.getEmail());
-            session("phone", phone == null ? "" : phone);
-            session("address", address == null ? "" : address);
             return redirect("/user");
         }
     }
     
+    /**
+     * User registration. Store new user if all the fields are complete and validated.
+     * Otherwise, return response with message.
+     */
     public Result register() {
         String username = Form.form().bindFromRequest().get("username");
         String pwd = Form.form().bindFromRequest().get("pwd");
@@ -72,6 +82,9 @@ public class AuthController extends Controller {
         }
     }
     
+    /**
+     * End current user session.
+     */
     public Result logout() {
         session().clear();
         return redirect("/");
