@@ -7,20 +7,31 @@
     height: inherit;
     position: fixed;
     background-color: $blue-grey;
+    h2 {
+        @include font(22px);
+        color: $pale-grey;
+        margin: 1em 0 0 1em;
+    }
     ul {
         width: 100%;
         @include center(column);
-        align-items: flex-start;
         padding: 2em 0;
         li {
             @include font(18px);
             color: $light-grey;
+            width: inherit;
+            height: 4.5em;
+            line-height: 4.5em;
+            vertical-align: middle;
+            &:hover {
+                cursor: pointer;
+                background-color: lighten($blue-grey, 10%);
+            }
             img {
                 width: 48px;
                 height: 48px;
                 vertical-align: middle;
-                margin-left: 4.25em;
-                margin-right: 1em;
+                margin: 0 1em 0 3em;
             }
         }
     }
@@ -44,6 +55,13 @@
         line-height: inherit;
         padding: 0 1.5em;
         text-align: center;
+        &.greeting {
+            background-color: lighten($pale-grey, 2%);
+        }
+        &.nav-option:hover {
+            cursor: pointer;
+            background-color: lighten($pale-grey, 2%);
+        }
     }
     i {
         font-size: 20px;
@@ -57,4 +75,22 @@
 }
 #rightmost {
     border-right: none;
+}
+#open-sale-modal {
+    @include center;
+    visibility: collapse;
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+#open-sale-modal.show {
+    visibility: visible;
+}
+#modal-content {
+    width: 32em;
+    height: 24em;
+    background-color: $pale-grey;
+    box-shadow: 0 0 1em $blue-grey;
 }

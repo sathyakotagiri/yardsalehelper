@@ -5,10 +5,21 @@ import play.mvc.Result;
 import play.data.Form;
 
 import models.User;
+import models.Sale;
+
+import java.util.ArrayList;
 
 import views.html.user.*;
 
 public class UserController extends Controller {
+    
+    /**
+     * Render list of sales on the user home page
+     */
+    public Result index() {
+        ArrayList<Sale> list = new ArrayList<Sale>();
+        return ok(sales.render(list));
+    }
     
     /**
      * Render user profile.
@@ -28,7 +39,7 @@ public class UserController extends Controller {
         String phone = Form.form().bindFromRequest().get("phone");
         String address = Form.form().bindFromRequest().get("address");
         
-        boolean invalidEmail = email.indexOf("@") == -1 || email.indexOf(".") == -1 || email.indexOf(".") == email.length() - 1 || email.indexOf(".") - email.indexOf("@") <= 1;
+        boolean invalidEmail = email.indexOf("@") == -1 || email.lastIndexOf(".") == -1 || email.lastIndexOf(".") == email.length() - 1 || email.lastIndexOf(".") - email.indexOf("@") <= 1;
         User user = User.find.byId(session().get("username"));
         
         if (!email.isEmpty() && !invalidEmail) user.setEmail(email);

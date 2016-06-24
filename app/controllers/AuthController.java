@@ -67,7 +67,7 @@ public class AuthController extends Controller {
         if (pwd.length() < 8) {
             return ok(signup.render("Password must be at least 8 characters."));
         }
-        if (email.indexOf("@") == -1 || email.indexOf(".") == -1 || email.indexOf(".") == email.length() - 1 || email.indexOf(".") - email.indexOf("@") <= 1) {
+        if (email.indexOf("@") == -1 || email.lastIndexOf(".") == -1 || email.lastIndexOf(".") == email.length() - 1 || email.lastIndexOf(".") - email.indexOf("@") <= 1) {
             return ok(signup.render("Please enter a valid email."));
         }
         

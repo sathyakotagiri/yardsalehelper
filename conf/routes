@@ -8,7 +8,7 @@ POST     /signup/register   controllers.AuthController.register
 GET       /logout                 controllers.AuthController.logout 
 
 # User routes
-GET     /user                    controllers.UserController.profile
+GET     /user                    controllers.UserController.index
 GET    /profile                 controllers.UserController.profile
 POST   /profile/edit        controllers.UserController.editProfile 
 POST  /profile/changepass   controllers.UserController.changePass

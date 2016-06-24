@@ -1,0 +1,13 @@
+@(sales: List[Sale])
+
+@dashboard("Welcome to Yard Sale Helper") {
+
+<h1>Current Sales</h1>
+
+<ul>
+    @for(listing <- sales) {
+        @*<li>@listing.getTitle()</li>*@
+    }
+</ul>
+
+}
