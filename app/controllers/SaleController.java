@@ -4,7 +4,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.data.Form;
 
-import models.User;
 import models.Sale;
 
 import views.html.user.sales;
@@ -29,7 +28,7 @@ public class SaleController extends Controller {
         newSale.setSize(0);
         
         newSale.save();
-        return ok("Sale added successful.");
+        return ok("Sale added successfully.");
     }
     
 }
