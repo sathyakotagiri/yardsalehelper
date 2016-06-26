@@ -46,3 +46,11 @@
         color: darken($colour, 10%);
     }
 }
+
+//CSS3 transition
+@mixin transition($options...) {
+    -webkit-transition: $options;
+    -moz-transition: $options;
+    -o-transition: $options;
+    transition: $options;
+}

@@ -1,4 +1,4 @@
--package models;
+package models;
 
 import com.avaje.ebean.Model;
 
@@ -9,24 +9,24 @@ import javax.persistence.Id;
 public class Item extends Model {
     
     @Id
-    private int saleId;
-    
     private int itemId;
+    
+    private int saleId;
     private String title;
     private String description;
     private double price;
     private int stock;
     
-    public static Finder<String, Item> find = new Finder<String, Item>(Item.class);
+    public static Finder<Integer, Item> find = new Finder<Integer, Item>(Item.class);
     
     /**
      * Getters for private fields.
      */
-    public int getSaleId() {
-        return saleId;
-    }
     public int getItemId() {
         return itemId;
+    }
+    public int getSaleId() {
+        return saleId;
     }
     public String getTitle() {
         return title;
@@ -44,11 +44,11 @@ public class Item extends Model {
     /**
      * Setters for private fields.
      */
-    public void setSaleId(int saleId) {
-        this.saleId = saleId;
-    }
     public void setItemId(int itemId) {
         this.itemId = itemId;
+    }
+    public void setSaleId(int saleId) {
+        this.saleId = saleId;
     }
     public void setTitle(String title) {
         this.title = title;

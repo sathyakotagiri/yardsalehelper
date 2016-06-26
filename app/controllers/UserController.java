@@ -7,7 +7,7 @@ import play.data.Form;
 import models.User;
 import models.Sale;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import views.html.user.*;
 
@@ -17,7 +17,7 @@ public class UserController extends Controller {
      * Render list of sales on the user home page
      */
     public Result index() {
-        ArrayList<Sale> list = new ArrayList<Sale>();
+        List<Sale> list = Sale.find.all();
         return ok(sales.render(list));
     }
     

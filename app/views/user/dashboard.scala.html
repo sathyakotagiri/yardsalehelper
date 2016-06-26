@@ -13,22 +13,35 @@
         <div id='dashboard-nav'>
             <h2>MENU</h2>
             <ul>
-                <li id='open-sale'><img src="@routes.Assets.versioned("img/nav-store-front.svg")">Open a Sale</li>                
+                <li id='open-sale'><img src="@routes.Assets.versioned("img/new-sale.svg")">OPEN A SALE</li>    
+                <li><img src="@routes.Assets.versioned("img/browse-sales.svg")"><a href='/user'>Browse Sales</a></li>
             </ul>
         </div>
         
-        <div id='open-sale-modal'>
-            <div id='modal-content'>
+        <div class='modal' id='open-sale-modal'>
+            <div class='modal-content'>
+                <div class='modal-img-upload'>
+                    <div class='modal-img' id='sale-img'></div>
+                    <div>
+                        <input id="img-input-a" type="file" name='image' accept='image/*' style='display: none'> 
+                        <span>OPEN A NEW SALE</span>
+                        <a onclick="document.getElementById('img-input-a').click();" class='blue-btn'>Upload Image</a>
+                        <a id='create-sale'  class='red-btn'>Submit</a>
+                    </div>
+                </div>
+                <div id='create-sale-msg'></div>
+                <div class='modal-text'><span class='label'>Title: </span><input type='text' name='title' class='sale-info'></div>
+                <div class='modal-text'><span class='label'>Location: </span><input type='text' name='location' class='sale-info'></div>
             </div>
         </div>
         
         <div id='dashboard-main'>
             <div id='top-nav'>
-                <span id='leftmost'>Welcome to Yard Sale Helper</span>
+                <span id='leftmost'>WELCOME TO YARD SALE HELPER</span>
                 <span class='nav-option'><a href='/logout'>LOG OUT</a></span>
                 <span class='nav-option'><a href='/profile'><i class="fa fa-cog"></i></a></span>
                 @if(session.isEmpty()) {
-                <span id='rightmost'>Hello, please <a href='/'>log in</a>.</span>
+                <span id='rightmost'>HELLO, PLEASE <a href='/'>LOG IN</a>.</span>
                 } else {
                     <span id='rightmost'>@session.get("name")</span>
                 }
@@ -41,8 +54,42 @@
     </div>
     
     <script>
+        //show the add sale modal
         $("#open-sale").click(function() {
             $("#open-sale-modal").addClass("show");
+        });
+        //send add sale request to the server
+        $("#create-sale").click(function() {
+            var req = {};
+            var formData = new FormData($('img-input-a'));
+            $('.sale-info').map(function() {
+                req[$(this).attr("name")] = $(this).val();
+            });
+//            req['image'] = formData;
+            if (!req['title'].length || !req['location'].length) $("#create-sale-msg").text("Please enter title and location.");
+            $.ajax({
+                url: '/sale',
+                type: "POST",
+                data: req,
+//                processData: false,
+                success: function(data, status) {
+                    $("#open-sale-modal").removeClass("show");
+                    location.reload();
+                },
+                error: function() {
+                    console.log("Error occurs. Please try again.")
+                }
+            });
+        });
+        //show image after uploading
+        $("#img-input-a").change(function() {
+            var file = document.getElementById("img-input-a").files[0];
+            var reader = new FileReader();
+            reader.onloadend = function() {
+                $('#sale-img').css("background-image", "url(" + reader.result + ")");
+            }
+            if (file) reader.readAsDataURL(file);
+            else return;
         });
     </script>
 }

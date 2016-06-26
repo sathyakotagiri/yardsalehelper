@@ -16,6 +16,8 @@ public class Sale extends Model {
     private String location;
     private int size;
     
+    public static Finder<Integer, Sale> find = new Finder<Integer, Sale>(Sale.class);
+    
     /**
      * Getters for private fields.
      */

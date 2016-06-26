@@ -6,3 +6,4 @@ tmp
 .sass-cache
 .map
 conf/evolutions
+.idea

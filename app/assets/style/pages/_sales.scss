@@ -1,0 +1,14 @@
+#sale-list {
+    h1 {
+        @include font(20px);
+        margin-top: 2em;
+        color: $dark-green;
+        text-shadow: 1px 1px $platinum;
+        text-align: center;
+    }
+    ul {
+        display: flex;
+        flex-direction: column;
+        padding: 2em 0 0 5em;
+    }
+}
