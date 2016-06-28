@@ -10,6 +10,7 @@ import models.Sale;
 import java.util.List;
 
 import views.html.user.*;
+import views.html.sale.sales;
 
 public class UserController extends Controller {
     

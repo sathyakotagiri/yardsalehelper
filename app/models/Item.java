@@ -53,7 +53,7 @@ public class Item extends Model {
     public void setTitle(String title) {
         this.title = title;
     }
-    public void setDescription(String Description) {
+    public void setDescription(String description) {
         this.description = description;
     }
     public void setPrice(double price) {

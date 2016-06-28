@@ -1,0 +1,65 @@
+@(sale: Sale)(items: List[Item])
+
+@dashboard("Browse catalog") {
+
+<div class='listing'>
+    
+    <h1>@sale.getTitle()</h1>
+    
+    @if(sale.getSellerId().equals(session.get("username"))) {
+        <span class='blue-btn' id='add-catalog-item'>Add Item</span>
+    }
+    
+    <ul>
+        @for(entry <- items) {
+            <li class='list-item-container' onclick="window.location.href = '/item/' + @entry.getItemId()">
+                <div class='list-item-img'>No Image Yet</div>
+                <div class='list-item-description'>
+                    <span class='list-item-title'>@entry.getTitle()</span>
+                    <span>$@entry.getPrice()</span>
+                    <span>@entry.getDescription()</span>
+                    <span>@entry.getStock() left in stock</span>
+                </div>
+            </li>
+        }
+    </ul>
+
+</div>
+
+<script>
+    //show and hide the add catalog item modal
+    $("#add-catalog-item").click(function() {
+        $("#add-item-modal").addClass("show");
+    });
+    $('#hide-modal-b').click(function() {
+        $("#add-item-modal").removeClass("show");
+        $("#add-item-msg").text("");
+    });
+     //send add catalog item equest to the server
+        $("#add-item").click(function() {
+            var req = {};
+            var formData = new FormData($('img-input-b'));
+            $('.item-info').map(function() {
+                req[$(this).attr("name")] = $(this).val();
+            });
+            req["saleId"] = @sale.getSaleId();
+//            req['image'] = formData;
+            if (!req['title'].length || !req['description'].length || !req['price'].length || !req['stock'].length) $("#add-item-msg").text("Please complete all the fields.");
+            else if (isNaN(req['price']) || req['price'] < 0 || !Number.isInteger(parseInt(req['stock'])) || req['stock'] < 0) $("#add-item-msg").text("Please enter valid price/stock.");
+            else $.ajax({
+                url: '/item',
+                type: "POST",
+                data: req,
+//                processData: false,
+                success: function(data, status) {
+                    $("#add-item-modal").removeClass("show");
+                    location.reload();
+                },
+                error: function() {
+                    console.log("Error occurs. Please try again.")
+                }
+            });
+        });
+</script>
+
+}

@@ -36,10 +36,6 @@
                 vertical-align: middle;
                 margin: 0 1.25em 0 3em;
             }
-            a {
-                text-decoration: none;
-                color: lighten($light-grey, 20%);
-            }
         }
     }
 }
@@ -82,8 +78,9 @@
 #rightmost {
     border-right: none;
 }
-#create-sale-msg {
+#create-sale-msg, #add-item-msg {
     color: $light-red;
+    margin-bottom: 0.5em;
     font-size: 13px;
     text-align: center;
 }

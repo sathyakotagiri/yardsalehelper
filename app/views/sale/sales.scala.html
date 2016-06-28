@@ -1,14 +1,14 @@
 @(sales: List[Sale])
 
-@dashboard("Welcome to Yard Sale Helper") {
+@dashboard("Browse sales") {
 
-<div id='sale-list'>
+<div class='listing'>
     
     <h1>BROWSE ONGOING SALES</h1>
     
     <ul>
         @for(listing <- sales) {
-            <li class='list-item-container'>
+            <li class='list-item-container' onclick="window.location.href = '/sale/' + @listing.getSaleId()">
                 <div class='list-item-img'>No Image Yet</div>
                 <div class='list-item-description'>
                     <span class='list-item-title'>@listing.getTitle()</span>

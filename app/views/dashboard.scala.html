@@ -13,20 +13,20 @@
         <div id='dashboard-nav'>
             <h2>MENU</h2>
             <ul>
-                <li id='open-sale'><img src="@routes.Assets.versioned("img/new-sale.svg")">OPEN A SALE</li>    
-                <li><img src="@routes.Assets.versioned("img/browse-sales.svg")"><a href='/user'>Browse Sales</a></li>
+                <li id='open-sale'><img src="@routes.Assets.versioned("img/new-sale.svg")">Open a Sale</li>
+                <li onclick="window.location.href = '/user'"><img src="@routes.Assets.versioned("img/browse-sales.svg")">Browse Sales</li>
             </ul>
         </div>
-        
+        <!-- hidden modal 1: open new sale -->
         <div class='modal' id='open-sale-modal'>
-            <div class='modal-content'>
+            <div class='modal-content' id='open-sale-content'>
                 <div class='modal-img-upload'>
                     <div class='modal-img' id='sale-img'></div>
                     <div>
                         <input id="img-input-a" type="file" name='image' accept='image/*' style='display: none'> 
-                        <span>OPEN A NEW SALE</span>
                         <a onclick="document.getElementById('img-input-a').click();" class='blue-btn'>Upload Image</a>
                         <a id='create-sale'  class='red-btn'>Submit</a>
+                        <span class='grey-btn' id='hide-modal-a'>Cancel</span>
                     </div>
                 </div>
                 <div id='create-sale-msg'></div>
@@ -34,6 +34,27 @@
                 <div class='modal-text'><span class='label'>Location: </span><input type='text' name='location' class='sale-info'></div>
             </div>
         </div>
+        <!-- hidden modal 2: add catalog item -->
+        <div class='modal' id='add-item-modal'>
+        <div class='modal-content' id='add-item-content'>
+            <div class='modal-img-upload'>
+                <div class='modal-img' id='item-img'></div>
+                <div>
+                    <input id="img-input-b" type="file" name='image' accept='image/*' style='display: none'> 
+                    <a onclick="document.getElementById('img-input-b').click();" class='blue-btn'>Upload Image</a>
+                    <a id='add-item'  class='red-btn'>Submit</a>
+                    <span class='grey-btn' id='hide-modal-b'>Cancel</span>
+                </div>
+            </div>
+            <div id='add-item-msg'></div>
+            <div class='modal-text'><span class='label'>Title: </span><input type='text' name='title' class='item-info'></div>
+            <div class='modal-text'><span class='label'>Description: </span><input type='text' name='description' class='item-info'></div>
+            <div class='modal-text'>
+                <span class='label short'>Price: </span><input type='text' name='price' class='item-info input-short'>
+                <span class='label short'>Stock: </span><input type='text' name='stock' class='item-info input-short'>
+            </div>
+        </div>
+    </div>
         
         <div id='dashboard-main'>
             <div id='top-nav'>
@@ -54,9 +75,13 @@
     </div>
     
     <script>
-        //show the add sale modal
+        //show and hide the add sale modal
         $("#open-sale").click(function() {
             $("#open-sale-modal").addClass("show");
+        });
+        $('#hide-modal-a').click(function() {
+            $("#open-sale-modal").removeClass("show");
+            $("#create-sale-msg").text("");
         });
         //send add sale request to the server
         $("#create-sale").click(function() {
@@ -67,7 +92,7 @@
             });
 //            req['image'] = formData;
             if (!req['title'].length || !req['location'].length) $("#create-sale-msg").text("Please enter title and location.");
-            $.ajax({
+            else $.ajax({
                 url: '/sale',
                 type: "POST",
                 data: req,
