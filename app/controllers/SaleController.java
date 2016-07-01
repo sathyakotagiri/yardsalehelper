@@ -41,6 +41,15 @@ public class SaleController extends Controller {
     }
     
     /**
+     * Get a specific item given id
+     */
+    public Result getItem(int id) {
+        Item entry = Item.find.byId(id);
+        Sale sale = Sale.find.byId(entry.getSaleId());
+        return ok(item.render(sale, entry));
+    }
+    
+    /**
      * Add an item to the catalog of the chosen sale
      */
     public Result addItem() {
@@ -62,4 +71,24 @@ public class SaleController extends Controller {
         return ok("Item added successfully.");
     }
     
+    /**
+     * Update an item
+     */
+    public Result editItem() {
+        String title = Form.form().bindFromRequest().get("title");
+        String description = Form.form().bindFromRequest().get("description");
+        String priceStr = Form.form().bindFromRequest().get("price");
+        String stockStr = Form.form().bindFromRequest().get("stock");
+        int itemId = Integer.parseInt(Form.form().bindFromRequest().get("itemId"));
+        
+        Item item = Item.find.byId(itemId);
+        
+        if (!title.isEmpty()) item.setTitle(title);
+        if (!description.isEmpty()) item.setDescription(description);
+        if (!priceStr.isEmpty()) item.setPrice(Double.parseDouble(priceStr));
+        if (!stockStr.isEmpty()) item.setStock(Integer.parseInt(stockStr));
+        item.save();
+        
+        return ok("Item updated successfully.");
+    }
 }

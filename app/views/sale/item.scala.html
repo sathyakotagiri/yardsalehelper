@@ -1,0 +1,66 @@
+@(sale: Sale)(entry: Item)
+
+@dashboard("Item details") {
+
+<div class='item-detail-container'>
+    <div>
+        <div class='list-item-img'>No Image Yet</div>
+        <div class='list-item-detail'>
+            <span>@entry.getDescription()</span>
+        </div>
+    </div>
+    <div class='list-item-description'>
+        <div>
+            <span class='list-item-title'>@entry.getTitle()</span>
+            <a class='red-btn' href='/sale/@sale.getSaleId()'>Back</a>
+        </div>  
+        <span>$@entry.getPrice()</span>
+        <span>@entry.getStock() left in stock</span>
+        @if(sale.getSellerId().equals(session.get("username"))) {
+            <div><div id='update-item' class='grey-btn'>Update Item</div></div>
+        } else {
+            <div>
+                Quantity: <input type='text' name='quantity'>
+                <div id='add-to-cart' class='blue-btn'>Add to Shopping List</div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+     //show and hide the update catalog item modal
+    $("#update-item").click(function() {
+        $("#add-item-modal").addClass("show");
+    });
+    $('#hide-modal-b').click(function() {
+        $("#add-item-modal").removeClass("show");
+        $("#add-item-msg").text("");
+    });
+    //send update catalog item request to the server
+        $("#add-item").click(function() {
+            var req = {};
+            var formData = new FormData($('img-input-b'));
+            $('.item-info').map(function() {
+                req[$(this).attr("name")] = $(this).val();
+            });
+            req["itemId"] = @entry.getItemId();
+//            req['image'] = formData;
+            if (!req['title'].length && !req['description'].length && !req['price'].length && !req['stock'].length) $("#add-item-msg").text("No changes are made.");
+            else if ((req['price'].length && (isNaN(req['price']) || req['price'] <= 0)) || (req['stock'].length && !Number.isInteger(parseInt(req['stock']))) || req['stock'] < 0) $("#add-item-msg").text("Please enter valid price/stock.");
+            else $.ajax({
+                url: '/item/edit',
+                type: "POST",
+                data: req,
+//                processData: false,
+                success: function(data, status) {
+                    $("#add-item-modal").removeClass("show");
+                    location.reload();
+                },
+                error: function() {
+                    console.log("Error occurs. Please try again.")
+                }
+            });
+        });
+</script>
+        
+}

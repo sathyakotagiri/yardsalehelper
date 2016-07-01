@@ -8,6 +8,8 @@
     
     @if(sale.getSellerId().equals(session.get("username"))) {
         <span class='blue-btn' id='add-catalog-item'>Add Item</span>
+    } else {
+        <input type='text' id='search-item' placeholder="Search for an item ... ">
     }
     
     <ul>
@@ -35,7 +37,7 @@
         $("#add-item-modal").removeClass("show");
         $("#add-item-msg").text("");
     });
-     //send add catalog item equest to the server
+     //send add catalog item request to the server
         $("#add-item").click(function() {
             var req = {};
             var formData = new FormData($('img-input-b'));
@@ -60,6 +62,13 @@
                 }
             });
         });
+    //implement search item
+    $("#search-item").change(function() {
+        var $content = $(this).val().toLowerCase();
+        $(".list-item-container").each(function() {
+            $(this).toggle(!$content.length || $(".list-item-title", this).text().toLowerCase().includes($content));
+        });
+    });
 </script>
 
 }

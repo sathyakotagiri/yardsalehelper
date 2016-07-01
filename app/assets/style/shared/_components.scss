@@ -84,6 +84,13 @@
         background-color: lighten($pale-grey, 3%);
         text-align: left;
     }
+    #search-item {
+        @include font;
+        width: 20em;
+        height: 1.5em;
+        padding: 0.25em 0.75em;
+        margin-top: 2em;
+    }
 }
 .list-item-container {
     display: flex;
@@ -118,4 +125,46 @@
     @include font(20px);
     margin-top: 0.5em;
     color: $blue-grey;
+}
+.item-detail-container {
+    @extend .list-item-container;
+    border: none;
+    padding: 5em 7.5em 0;
+    background-color: lighten($pale-grey, 3%);
+    .list-item-img {
+        background-color: $white;
+        width: 225px;
+        height: 225px;
+    }
+    .list-item-detail {
+        margin-top: 3em;
+    }
+    .list-item-title {
+        display: inline-block;
+        width: 15.75em;
+    }
+    .list-item-description {
+        margin-left: 3em;
+        * {
+            margin-bottom: 1.5em;
+        }
+        div {
+            display: inline-block;
+        }
+    }
+    input {
+        @include font;
+        width: 3.75em;
+        height: 1.75em;
+        padding: 0.25em;
+    }
+    .blue-btn, .red-btn {
+        margin-top: 0;
+    }
+    .blue-btn {
+        margin-left: 1em;
+    }
+    .grey-btn {
+        margin-left: 0;
+    }
 }
