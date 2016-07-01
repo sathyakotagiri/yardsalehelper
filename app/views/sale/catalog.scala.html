@@ -6,10 +6,10 @@
     
     <h1>@sale.getTitle()</h1>
     
+    <input type='text' id='search-item' placeholder="Search for an item ... ">
+    
     @if(sale.getSellerId().equals(session.get("username"))) {
         <span class='blue-btn' id='add-catalog-item'>Add Item</span>
-    } else {
-        <input type='text' id='search-item' placeholder="Search for an item ... ">
     }
     
     <ul>

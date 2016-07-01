@@ -21,11 +21,11 @@ public class Transaction extends Model {
     public int getTransactionId() {
         return transactionId;
     }
-    public int getUserID() {
-        return userID;
+    public String getCustomerId() {
+        return customerId;
     }
-    public int getTransTotal() {
-        return transTotal;
+    public double getTotal() {
+        return total;
     }
 
     /**
@@ -34,10 +34,10 @@ public class Transaction extends Model {
     public void setTransactionId(int transactionId) {
         this.transactionId = transactionId;
     }
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
-    public void setTransTotal(int transTotal) {
-        this.transTotal = transTotal;
+    public void setTotal(double total) {
+        this.total = total;
     }
 }

@@ -5,6 +5,8 @@ import com.avaje.ebean.Model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import java.util.List;
+
 @Entity
 public class User extends Model {
     
@@ -16,6 +18,7 @@ public class User extends Model {
     private String name;
     private String phone;
     private String address;
+    private List<Item> cart;
     
     public static Finder<String, User> find = new Finder<String, User>(User.class);
     
@@ -40,6 +43,9 @@ public class User extends Model {
     public String getAddress() {
         return address;
     }
+    public List<Item> getCart() {
+        return cart;
+    }
     
     /**
      * Setters for private fields.
@@ -61,5 +67,8 @@ public class User extends Model {
     }
     public void setAddress(String address) {
         this.address = address;
+    }
+    public void setCart(List<Item> cart) {
+        this.cart = cart;
     }
 }
