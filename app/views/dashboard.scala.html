@@ -25,7 +25,7 @@
                 <div class='modal-img-upload'>
                     <div class='modal-img' id='sale-img'></div>
                     <div>
-                        <input id="img-input-a" type="file" name='image' accept='image/*' style='display: none'> 
+                        <input id="img-input-a" type="file" name='image' accept='.jpg, .png, .bmp' style='display: none'> 
                         <a onclick="document.getElementById('img-input-a').click();" class='blue-btn'>Upload Image</a>
                         <a id='create-sale'  class='red-btn'>Submit</a>
                         <span class='grey-btn' id='hide-modal-a'>Cancel</span>
@@ -42,7 +42,7 @@
             <div class='modal-img-upload'>
                 <div class='modal-img' id='item-img'></div>
                 <div>
-                    <input id="img-input-b" type="file" name='image' accept='image/*' style='display: none'> 
+                    <input id="img-input-b" type="file" name='image' accept='.jpg, .png, .bmp' style='display: none'> 
                     <a onclick="document.getElementById('img-input-b').click();" class='blue-btn'>Upload Image</a>
                     <a id='add-item'  class='red-btn'>Submit</a>
                     <span class='grey-btn' id='hide-modal-b'>Cancel</span>
@@ -88,18 +88,21 @@
         });
         //send add sale request to the server
         $("#create-sale").click(function() {
-            var req = {};
-            var formData = new FormData($('img-input-a'));
+            var formData = new FormData();
+            var inputFile = document.getElementById('img-input-a').files[0];
+            formData.append('file', inputFile);
             $('.sale-info').map(function() {
-                req[$(this).attr("name")] = $(this).val();
+                formData.append($(this).attr("name"), $(this).val());
             });
-//            req['image'] = formData;
-            if (!req['title'].length || !req['location'].length) $("#create-sale-msg").text("Please enter title and location.");
-            else $.ajax({
+            if (!formData.get('title').length || 
+                !formData.get('location').length) {
+                $("#create-sale-msg").text("Please enter title and location."); 
+            } else $.ajax({
                 url: '/sale',
                 type: "POST",
-                data: req,
-//                processData: false,
+                contentType: false,
+                data: formData,
+                processData: false,
                 success: function(data, status) {
                     $("#open-sale-modal").removeClass("show");
                     location.reload();

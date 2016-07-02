@@ -4,7 +4,11 @@
 
 <div class='item-detail-container'>
     <div>
-        <div class='list-item-img'>No Image Yet</div>
+        @if(entry.getImage() != null) {
+            <div class='list-item-pic' style='background-image: url(/item/img/@entry.getItemId())'></div>
+        } else {
+            <div class='list-item-img'>No Image Yet</div>
+        }
         <div class='list-item-detail'>
             <span>@entry.getDescription()</span>
         </div>
@@ -38,20 +42,30 @@
     });
     //send update catalog item request to the server
         $("#add-item").click(function() {
-            var req = {};
             var formData = new FormData($('img-input-b'));
+            var inputFile = document.getElementById('img-input-b').files[0];
+            formData.append('file', inputFile);
             $('.item-info').map(function() {
-                req[$(this).attr("name")] = $(this).val();
+                formData.append($(this).attr("name"), $(this).val());
             });
-            req["itemId"] = @entry.getItemId();
-//            req['image'] = formData;
-            if (!req['title'].length && !req['description'].length && !req['price'].length && !req['stock'].length) $("#add-item-msg").text("No changes are made.");
-            else if ((req['price'].length && (isNaN(req['price']) || req['price'] <= 0)) || (req['stock'].length && !Number.isInteger(parseInt(req['stock']))) || req['stock'] < 0) $("#add-item-msg").text("Please enter valid price/stock.");
-            else $.ajax({
+            formData.append("itemId", @entry.getItemId());
+            if (!formData.get('title').length && 
+                !formData.get('description').length && 
+                !formData.get('price').length && 
+                !formData.get('stock').length &&
+                formData.get('file') == 'undefined') {
+                $("#add-item-msg").text("No changes are made.");
+            } else if ((formData.get('price').length && (isNaN(formData.get('price')) || 
+                            formData.get('price') <= 0)) || 
+                           (formData.get('stock').length && !Number.isInteger(parseInt(formData.get('stock')))) || 
+                            formData.get('stock') < 0) {
+                $("#add-item-msg").text("Please enter valid price/stock.");
+            } else $.ajax({
                 url: '/item/edit',
                 type: "POST",
-                data: req,
-//                processData: false,
+                contentType: false,
+                data: formData,
+                processData: false,
                 success: function(data, status) {
                     $("#add-item-modal").removeClass("show");
                     location.reload();
@@ -61,6 +75,16 @@
                 }
             });
         });
+    //show image after uploading
+    $("#img-input-b").change(function() {
+        var file = document.getElementById("img-input-b").files[0];
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            $('#item-img').css("background-image", "url(" + reader.result + ")");
+        }
+        if (file) reader.readAsDataURL(file);
+        else return;
+    });
 </script>
         
 }

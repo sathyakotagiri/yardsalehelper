@@ -15,7 +15,11 @@
     <ul>
         @for(entry <- items) {
             <li class='list-item-container' onclick="window.location.href = '/item/' + @entry.getItemId()">
-                <div class='list-item-img'>No Image Yet</div>
+                @if(entry.getImage() != null) {
+                    <div class='list-item-pic' style='background-image: url(/item/img/@entry.getItemId())'></div>
+                } else {
+                    <div class='list-item-img'>No Image Yet</div>
+                }
                 <div class='list-item-description'>
                     <span class='list-item-title'>@entry.getTitle()</span>
                     <span>$@entry.getPrice()</span>
@@ -39,20 +43,29 @@
     });
      //send add catalog item request to the server
         $("#add-item").click(function() {
-            var req = {};
-            var formData = new FormData($('img-input-b'));
+            var formData = new FormData();
+            var inputFile = document.getElementById('img-input-b').files[0];
+            formData.append('file', inputFile);
             $('.item-info').map(function() {
-                req[$(this).attr("name")] = $(this).val();
+                formData.append($(this).attr("name"), $(this).val());
             });
-            req["saleId"] = @sale.getSaleId();
-//            req['image'] = formData;
-            if (!req['title'].length || !req['description'].length || !req['price'].length || !req['stock'].length) $("#add-item-msg").text("Please complete all the fields.");
-            else if (isNaN(req['price']) || req['price'] < 0 || !Number.isInteger(parseInt(req['stock'])) || req['stock'] < 0) $("#add-item-msg").text("Please enter valid price/stock.");
-            else $.ajax({
+            formData.append("saleId", @sale.getSaleId());
+            if (!formData.get('title').length || 
+                !formData.get('description').length || 
+                !formData.get('price').length || 
+                !formData.get('stock').length) {
+                $("#add-item-msg").text("Please complete all the fields.");
+            } else if (isNaN(formData.get('price')) || 
+                     formData.get('price') < 0 || 
+                     !Number.isInteger(parseInt(formData.get('stock'))) || 
+                     formData.get('stock') < 0) {
+                $("#add-item-msg").text("Please enter valid price/stock.");
+            } else $.ajax({
                 url: '/item',
                 type: "POST",
-                data: req,
-//                processData: false,
+                contentType: false,
+                data: formData,
+                processData: false,
                 success: function(data, status) {
                     $("#add-item-modal").removeClass("show");
                     location.reload();
@@ -62,6 +75,16 @@
                 }
             });
         });
+    //show image after uploading
+    $("#img-input-b").change(function() {
+        var file = document.getElementById("img-input-b").files[0];
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            $('#item-img').css("background-image", "url(" + reader.result + ")");
+        }
+        if (file) reader.readAsDataURL(file);
+        else return;
+    });
     //implement search item
     $("#search-item").change(function() {
         var $content = $(this).val().toLowerCase();

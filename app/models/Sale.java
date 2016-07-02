@@ -4,6 +4,7 @@ import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity
 public class Sale extends Model {
@@ -15,6 +16,8 @@ public class Sale extends Model {
     private String title;
     private String location;
     private int size;
+    @Lob
+    private byte[] image;
     
     public static Finder<Integer, Sale> find = new Finder<Integer, Sale>(Sale.class);
     
@@ -36,6 +39,9 @@ public class Sale extends Model {
     public int getSize() {
         return size;
     }
+    public byte[] getImage() {
+        return image;
+    }
     
      /**
      * Setters for private fields.
@@ -54,5 +60,8 @@ public class Sale extends Model {
     }
     public void setSize(int size) {
         this.size = size;
+    }
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

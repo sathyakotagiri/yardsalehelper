@@ -14,9 +14,11 @@ POST   /profile/edit        controllers.UserController.editProfile
 POST  /profile/changepass   controllers.UserController.changePass
 
 # Sale routes
-GET     /sale/:id              controllers.SaleController.index(id: Integer)
-POST   /sale                    controllers.SaleController.add
-GET     /item/:id             controllers.SaleController.getItem(id: Integer)
+GET     /sale/:id               controllers.SaleController.index(id: Integer)
+GET     /sale/img/:id       controllers.SaleController.getSaleImg(id: Integer)
+POST   /sale                     controllers.SaleController.add
+GET     /item/:id              controllers.SaleController.getItem(id: Integer)
+GET     /item/img/:id      controllers.SaleController.getItemImg(id: Integer)
 POST   /item                   controllers.SaleController.addItem
 POST   /item/edit           controllers.SaleController.editItem
 

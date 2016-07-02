@@ -113,6 +113,14 @@
     background-color: lighten($pale-grey, 3%);
     margin-right: 1.5em;
 }
+.list-item-pic {
+    width: 10em;
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 1.5em;
+}
 .list-item-description {
     display: flex;
     flex-direction: column;
