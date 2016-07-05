@@ -16,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import views.html.sale.*;
+import views.html.tag.*;
 
 public class SaleController extends Controller {
     
@@ -164,5 +165,28 @@ public class SaleController extends Controller {
         item.save();
         
         return ok("Item updated successfully.");
+    }
+    
+    /**
+     * Render the print tag page
+     */
+    public Result tag() {
+        return ok(tag.render());
+    }
+    
+    /**
+     * Fetch information about an item and render the tag
+     */
+    public Result printTag(int id) {
+        Item item = Item.find.byId(id);
+        return ok(itemTag.render(item));
+    }
+    
+    /**
+     * Fetch information about a catalog and render the tags
+     */
+    public Result printTags(int id) {
+        List<Item> list = Item.find.where().eq("saleId", id).findList();
+        return ok(catalogTags.render(list));
     }
 }

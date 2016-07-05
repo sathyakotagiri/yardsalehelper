@@ -73,4 +73,12 @@ public class UserController extends Controller {
             return ok("Password changed successfully!");
         }
     }
+    
+    /**
+     * Render a user's current cart
+     */
+    public Result getCart() {
+        User user = User.find.byId(session().get("username"));
+        return ok(cart.render(user.getCart()));
+    }
 }

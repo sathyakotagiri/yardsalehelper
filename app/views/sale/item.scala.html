@@ -4,31 +4,31 @@
 
 <div class='item-detail-container'>
     <div>
+        <div>
         @if(entry.getImage() != null) {
             <div class='list-item-pic' style='background-image: url(/item/img/@entry.getItemId())'></div>
         } else {
             <div class='list-item-img'>No Image Yet</div>
         }
-        <div class='list-item-detail'>
-            <span>@entry.getDescription()</span>
+        </div>
+        <div class='list-item-description'>
+            <div>
+                <span class='list-item-title'>@entry.getTitle()</span>
+                <a class='red-btn' href='/sale/@sale.getSaleId()'>Back</a>
+            </div>
+            <span>$@entry.getPrice()</span>
+            <span>@entry.getStock() left in stock</span>
+            @if(sale.getSellerId().equals(session.get("username"))) {
+                <div><div id='update-item' class='grey-btn'>Update Item</div></div>
+            } else {
+                <div>
+                    Quantity: <input type='text' name='quantity'>
+                    <div id='add-to-cart' class='blue-btn'>Add to Shopping List</div>
+                </div>
+            }
         </div>
     </div>
-    <div class='list-item-description'>
-        <div>
-            <span class='list-item-title'>@entry.getTitle()</span>
-            <a class='red-btn' href='/sale/@sale.getSaleId()'>Back</a>
-        </div>  
-        <span>$@entry.getPrice()</span>
-        <span>@entry.getStock() left in stock</span>
-        @if(sale.getSellerId().equals(session.get("username"))) {
-            <div><div id='update-item' class='grey-btn'>Update Item</div></div>
-        } else {
-            <div>
-                Quantity: <input type='text' name='quantity'>
-                <div id='add-to-cart' class='blue-btn'>Add to Shopping List</div>
-            </div>
-        }
-    </div>
+    <span>@entry.getDescription()</span>
 </div>
 
 <script>
@@ -40,6 +40,7 @@
         $("#add-item-modal").removeClass("show");
         $("#add-item-msg").text("");
     });
+    
     //send update catalog item request to the server
         $("#add-item").click(function() {
             var formData = new FormData($('img-input-b'));
@@ -75,6 +76,7 @@
                 }
             });
         });
+    
     //show image after uploading
     $("#img-input-b").change(function() {
         var file = document.getElementById("img-input-b").files[0];

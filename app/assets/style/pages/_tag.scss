@@ -1,0 +1,30 @@
+#print-tag {
+    padding: 2em 0;
+    @include center(column);
+    > div {
+        margin-top: 5em;
+        @include font(20px);
+        input {
+            font-size: 18px;
+            padding: 0.25em;
+            height: 1.5em;
+        }
+    }
+}
+.tag-container {
+    @include center(column);
+    padding-top: 2em;
+}
+.tags {
+    text-align: center;
+    padding: 1em 1.5em;
+    margin-top: 0.5em;
+    > span {
+        display: block;
+        margin-top: 1em;
+    }
+}
+.print-note {
+    margin: 2em 0 1em;
+    display: none;
+}

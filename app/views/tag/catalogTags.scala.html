@@ -1,0 +1,28 @@
+@(catalog: List[Item])
+
+@dashboard("Print Tag for the catalog") {
+    <div class='tag-container'>
+        <div>
+            <a class='blue-btn print'>Print</a>
+            <a class='red-btn' href='/tag'>Back</a>
+        </div>
+        <span class='print-note'>Instruction has been sent to the printer.</span>
+        
+        @for(item <- catalog) {
+            <div class='tags'>
+                <div>
+                    <span>#@item.getItemId()</span>
+                    <span>@item.getTitle()</span>
+                    <span>$@item.getPrice()</span>
+                </div>
+                <span>@item.getDescription()</span>
+            </div>
+        }
+    </div>
+
+    <script>
+        $('.print').click(function() {
+            $('.print-note').show();
+        });
+    </script>
+}

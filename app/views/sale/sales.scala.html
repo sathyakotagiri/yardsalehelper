@@ -17,8 +17,12 @@
                 <div class='list-item-description'>
                     <span class='list-item-title'>@listing.getTitle()</span>
                     <span>@listing.getLocation()</span>
-                    <span>SELLER: @listing.getSellerId()</span>
-                    <span>REMAINING ITEMS: @listing.getSize()</span>
+                    <span>
+                        <span>Seller: @listing.getSellerId()</span>
+                        &nbsp;&nbsp;&nbsp;
+                        <span>ID: @listing.getSaleId()</span>
+                    </span>
+                    <span>Remaining Items: @listing.getSize()</span>
                 </div>
             </li>
         }

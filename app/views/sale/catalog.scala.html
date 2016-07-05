@@ -4,13 +4,16 @@
 
 <div class='listing'>
     
-    <h1>@sale.getTitle()</h1>
-    
-    <input type='text' id='search-item' placeholder="Search for an item ... ">
-    
+    <div>
+        <h1>@sale.getTitle()</h1>
+        <a href='/user' class='red-btn'>Back</a>
+    </div>
+        
     @if(sale.getSellerId().equals(session.get("username"))) {
         <span class='blue-btn' id='add-catalog-item'>Add Item</span>
     }
+    
+    <input type='text' id='search-item' placeholder="Search for an item ... ">
     
     <ul>
         @for(entry <- items) {
@@ -24,7 +27,11 @@
                     <span class='list-item-title'>@entry.getTitle()</span>
                     <span>$@entry.getPrice()</span>
                     <span>@entry.getDescription()</span>
-                    <span>@entry.getStock() left in stock</span>
+                    <span>
+                        <span>@entry.getStock() left in stock</span>
+                        &nbsp;&nbsp;&nbsp;
+                        <span>ID: @entry.getItemId()</span>
+                    </span>
                 </div>
             </li>
         }
@@ -41,6 +48,7 @@
         $("#add-item-modal").removeClass("show");
         $("#add-item-msg").text("");
     });
+    
      //send add catalog item request to the server
         $("#add-item").click(function() {
             var formData = new FormData();
@@ -75,6 +83,7 @@
                 }
             });
         });
+    
     //show image after uploading
     $("#img-input-b").change(function() {
         var file = document.getElementById("img-input-b").files[0];
@@ -85,6 +94,7 @@
         if (file) reader.readAsDataURL(file);
         else return;
     });
+    
     //implement search item
     $("#search-item").change(function() {
         var $content = $(this).val().toLowerCase();

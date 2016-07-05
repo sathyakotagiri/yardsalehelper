@@ -76,6 +76,11 @@
         color: $dark-green;
         text-shadow: 1px 1px $platinum;
         text-align: center;
+        display: inline-block;
+    }
+    > div > .red-btn {
+        position: absolute;
+        right: 5.5em;
     }
     ul {
         @include center(column);
@@ -135,10 +140,13 @@
     color: $blue-grey;
 }
 .item-detail-container {
-    @extend .list-item-container;
+    flex-direction: column;
     border: none;
     padding: 5em 7.5em 0;
     background-color: lighten($pale-grey, 3%);
+    > div {
+        display: flex;
+    }
     .list-item-img {
         background-color: $white;
         width: 225px;

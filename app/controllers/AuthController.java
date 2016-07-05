@@ -64,10 +64,13 @@ public class AuthController extends Controller {
         if (username.isEmpty() || pwd.isEmpty() || email.isEmpty() || name.isEmpty()) {
             return ok(signup.render("Please complete all the fields."));
         }
+        if (username.contains(" ")) {
+            return ok(signup.render("Username cannot contain whitespace."));
+        }
         if (pwd.length() < 8) {
             return ok(signup.render("Password must be at least 8 characters."));
         }
-        if (email.indexOf("@") == -1 || email.lastIndexOf(".") == -1 || email.lastIndexOf(".") == email.length() - 1 || email.lastIndexOf(".") - email.indexOf("@") <= 1) {
+        if (email.indexOf(" ") != -1 || email.indexOf("@") == -1 || email.lastIndexOf(".") == -1 || email.lastIndexOf(".") == email.length() - 1 || email.lastIndexOf(".") - email.indexOf("@") <= 1) {
             return ok(signup.render("Please enter a valid email."));
         }
         

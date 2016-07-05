@@ -1,0 +1,24 @@
+@dashboard("Print tags") {
+
+<div id='print-tag'>
+    <div>
+        <div>Print tag for an item</div>
+        <span>Item ID:</span><input type='text' class="input-short" id='itemId'>
+        <a class='blue-btn' id='generateTagA'>Generate Tag</a>
+    </div>
+    <div>
+        <div>Print tag for a catalog</div>
+        <span>Sale ID:</span><input type='text' class="input-short" id='saleId'>
+        <a class='blue-btn' id='generateTagB'>Generate Tag</a>
+    </div>
+</div>
+<script>
+    $('#generateTagA').click(function() {
+        window.location.href = '/tag/item/' + $('#itemId').val();
+    });
+    $('#generateTagB').click(function() {
+        window.location.href = '/tag/sale/' + $('#saleId').val();
+    });
+</script>
+
+}
