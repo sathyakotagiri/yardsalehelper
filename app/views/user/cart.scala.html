@@ -1,5 +1,78 @@
-@(cart: List[Item])
+@(implicit shoppingCart: List[Item])
 
-@main("View Cart") {
-    <div>HI</div>
+@checkout("View Cart") {
+    <div id='cart'>
+        
+        @if(!shoppingCart.isEmpty()) {
+
+            <h2>SHOPPING CART</h2>
+            <div id='nonempty-cart'>
+                <div id='cart-list'>
+                @for(item <- shoppingCart) {
+                    <div class='cart-item-container'>
+                        @if(item.getImage() != null) {
+                            <div class='cart-item-pic' style='background-image: url(/item/img/@item.getItemId())'></div>
+                        } else {
+                            <div class='cart-item-img'><span>No Image Yet</span></div>
+                        }
+                        <div class='cart-item-des'>
+                            <div>
+                                <span>#@item.getItemId()</span>
+                                <span>@item.getTitle()</span>
+                                <span class='cart-item-price'>$@item.getPrice()</span>
+                            </div>
+                            <div>Stock: @item.getStock()</div>
+                            <div class='cart-item-q'>
+                                <span>Quantity: &nbsp;</span>
+                                <select name="select" class='quantity-input cart-item-q item@item.getItemId()' onfocus="this.oldvalue = this.value;">
+                                    <option value="1">1</option> 
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                </select>
+                            </div>
+                            <div><a class='cart-item-delete'>Delete</a></div>
+                        </div>
+                        <script>
+                            //remove an item from cart
+                            $(".cart-item-delete").click(function() {
+                                $.ajax({
+                                    url: '/cart/@item.getItemId()',
+                                    type: 'DELETE',
+                                    success: function(data, status) {
+                                        location.reload();
+                                    },
+                                    error: function() {
+                                        console.log("Error occurs. Please try again.");
+                                    }
+                                });
+                            });
+                        </script>
+                    </div>
+                }
+                </div>
+
+                <div id='cart-summary'>
+                    <h5>SUMMARY</h5>
+                    <div>
+                        <hr><span>Subtotal:</span>
+                        <span id='subtotal'></span><hr>
+                    </div>
+                    <a href='/payment' class='red-btn'>Pay Now</a>
+                </div>
+            </div>
+
+        } else {
+            <div id='empty-cart'>
+                <span>Your cart is empty.</span>
+                <a href='/user' class='red-btn'>See the Deals</a>
+            </div>
+        }
+
+    </div>
 }

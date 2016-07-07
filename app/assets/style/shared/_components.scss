@@ -177,10 +177,7 @@
     .blue-btn, .red-btn {
         margin-top: 0;
     }
-    .blue-btn {
-        margin-left: 1em;
-    }
-    .grey-btn {
-        margin-left: 0;
+    #stock-msg {
+        color: $light-grey;
     }
 }

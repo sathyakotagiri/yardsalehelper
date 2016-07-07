@@ -1,0 +1,112 @@
+#cart {
+    padding: 3em 3em 0;
+    h2 {
+        font-weight: 700;
+        margin-bottom: 1.25em;
+        margin-left: 0.25em;
+    }
+}
+#empty-cart {
+    @include center(column);
+}
+#nonempty-cart {
+    @include center;
+    align-items: flex-start;
+}
+#cart-list {
+    @include center(column);
+    margin-right: 2em;
+}
+.cart-item-container {
+    display: flex;
+    align-items: center;
+    width: 32em;
+    height: 10em;
+    padding: 1em 2.25em;
+    margin-bottom: 1em;
+    border: 1px solid $platinum;
+    background-color: $white;
+    &:hover {
+        border-color: $dark-green;
+    }
+    @include transition(border-color, 0.5s, linear);
+    .cart-item-img {
+        @include center;
+        margin-right: 1.5em;
+        border: 1px solid $light-grey;
+        width: 8em;
+        height: 8em;
+        span {
+            font-size: 12px;
+        }
+    }
+    .cart-item-pic {
+        @extend .cart-item-img;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .cart-item-des {
+        position: relative;
+        width: 22.5em;
+        height: 8em;
+        > div {
+            margin: 0.75em 0 1em;
+            font-size: 16px;
+        }
+    }
+    .cart-item-price {
+        position: absolute;
+        right: 0;
+    }
+    .cart-item-q {
+        color: darken($light-grey, 15%);
+        vertical-align: middle;
+        font-size: 15px;
+        a {
+            font-size: 12px;
+        }
+    }
+    .quantity-input {
+        width: 3em;
+        height: 1.75em;
+        padding: 0.25em 0.5em;
+        font-size: 16px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-color: transparent;
+        outline: none;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    .cart-item-delete {
+        @include link($light-grey);
+        font-size: 15px;
+    }
+}
+#cart-summary {
+    @extend .cart-item-container;
+    flex-direction: column;
+    text-align: center;
+    width: 15em;
+    height: 15em;
+    hr {
+        width: 80%;
+        border: 0;
+        border-bottom: 1px solid $platinum;
+    }
+    > div {
+        width: 100%;
+        margin-top: 2em;
+    }
+    span {
+        display: block;
+        margin: 1em 0;
+        font-size: 15px;
+    }
+    a {
+        font-size: 13px;
+    }
+}

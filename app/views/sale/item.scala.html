@@ -17,14 +17,14 @@
                 <a class='red-btn' href='/sale/@sale.getSaleId()'>Back</a>
             </div>
             <span>$@entry.getPrice()</span>
-            <span>@entry.getStock() left in stock</span>
+            <div>
+                <span>@entry.getStock() left in stock</span>&nbsp;&nbsp;
+                <span id='stock-msg'></span>
+            </div>
             @if(sale.getSellerId().equals(session.get("username"))) {
                 <div><div id='update-item' class='grey-btn'>Update Item</div></div>
             } else {
-                <div>
-                    Quantity: <input type='text' name='quantity'>
-                    <div id='add-to-cart' class='blue-btn'>Add to Shopping List</div>
-                </div>
+                <div><div id='add-to-cart' class='blue-btn'>Add to Cart</div></div>
             }
         </div>
     </div>
@@ -72,7 +72,7 @@
                     location.reload();
                 },
                 error: function() {
-                    console.log("Error occurs. Please try again.")
+                    console.log("Error occurs. Please try again.");
                 }
             });
         });
@@ -86,6 +86,23 @@
         }
         if (file) reader.readAsDataURL(file);
         else return;
+    });
+    
+    //add an item to cart
+    $("#add-to-cart").click(function() {
+        var req = {};
+        req['item'] = @entry.getItemId();
+        $.ajax({
+            url: '/cart',
+            type: "POST",
+            data: req,
+            success: function(data, status) {
+                $("#stock-msg").text(data);
+            },
+            error: function() {
+                console.log("Error occurs. Please try again.");
+            }
+        });
     });
 </script>
         

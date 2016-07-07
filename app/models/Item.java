@@ -5,9 +5,13 @@ import com.avaje.ebean.Model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
-public class Item extends Model {
+public class Item extends Model implements Cloneable {
     
     @Id
     private int itemId;
@@ -19,6 +23,9 @@ public class Item extends Model {
     private int stock;
     @Lob
     private byte[] image;
+    
+    @ManyToMany
+    private List<User> customers = new ArrayList<User>();
     
     public static Finder<Integer, Item> find = new Finder<Integer, Item>(Item.class);
     
@@ -70,5 +77,11 @@ public class Item extends Model {
     }
     public void setImage(byte[] image) {
         this.image = image;
+    }
+    
+    @Override
+    public Item clone() throws CloneNotSupportedException {
+        Item item = (Item) super.clone();        
+        return item;
     }
 }

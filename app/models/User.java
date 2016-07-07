@@ -4,8 +4,10 @@ import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 public class User extends Model {
@@ -18,7 +20,9 @@ public class User extends Model {
     private String name;
     private String phone;
     private String address;
-    private List<Item> cart;
+    
+    @ManyToMany
+    private List<Item> cart = new ArrayList<Item>();
     
     public static Finder<String, User> find = new Finder<String, User>(User.class);
     

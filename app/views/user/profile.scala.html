@@ -36,7 +36,7 @@
         $(".info").map(function() {
             req[$(this).attr("name")] = $(this).val();
         });
-        $.post('/profile/edit',
+        $.post('/profile',
             req,
             function(data, status) {
                 location.reload();
