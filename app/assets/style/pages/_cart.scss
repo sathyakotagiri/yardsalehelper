@@ -4,7 +4,12 @@
         font-weight: 700;
         margin-bottom: 1.25em;
         margin-left: 0.25em;
+        display: inline-block;
     }
+}
+#instr {
+    font-size: 13px;
+    margin-left: 7.5em;
 }
 #empty-cart {
     @include center(column);
@@ -15,7 +20,7 @@
 }
 #cart-list {
     @include center(column);
-    margin-right: 2em;
+    margin-right: 1em;
 }
 .cart-item-container {
     display: flex;
@@ -92,6 +97,7 @@
     text-align: center;
     width: 15em;
     height: 15em;
+    padding: 1.5em 1em;
     hr {
         width: 80%;
         border: 0;
@@ -99,7 +105,7 @@
     }
     > div {
         width: 100%;
-        margin-top: 2em;
+        margin-top: 1em;
     }
     span {
         display: block;
@@ -110,8 +116,16 @@
         font-size: 13px;
     }
 }
-#payment {
-    @include center(column);
-    padding-top: 25%;
-    font-size: 16px;
+#payment-options {
+    @include center;
+    > div {
+        margin-right: 0.5em;
+    }
+    img {
+        width: 36px;
+        height: 20px;
+    }
+    input {
+        height: 20px;
+    }
 }

@@ -5,13 +5,9 @@ import com.avaje.ebean.Model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-
-import java.util.List;
-import java.util.ArrayList;
 
 @Entity
-public class Item extends Model implements Cloneable {
+public class Item extends Model {
     
     @Id
     private int itemId;
@@ -74,11 +70,5 @@ public class Item extends Model implements Cloneable {
     }
     public void setImage(byte[] image) {
         this.image = image;
-    }
-    
-    @Override
-    public Item clone() throws CloneNotSupportedException {
-        Item item = (Item) super.clone();        
-        return item;
     }
 }

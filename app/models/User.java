@@ -22,7 +22,7 @@ public class User extends Model {
     private String address;
     
     @ManyToMany
-    private List<CartItem> cart = new ArrayList<CartItem>();
+    private List<Item> cart = new ArrayList<Item>();
     
     public static Finder<String, User> find = new Finder<String, User>(User.class);
     
@@ -47,7 +47,7 @@ public class User extends Model {
     public String getAddress() {
         return address;
     }
-    public List<CartItem> getCart() {
+    public List<Item> getCart() {
         return cart;
     }
     
@@ -72,7 +72,7 @@ public class User extends Model {
     public void setAddress(String address) {
         this.address = address;
     }
-    public void setCart(List<CartItem> cart) {
+    public void setCart(List<Item> cart) {
         this.cart = cart;
     }
 }

@@ -7,11 +7,10 @@ import play.data.Form;
 import models.User;
 import models.Sale;
 import models.Item;
-import models.CartItem;
 
 import java.util.List;
 
-import views.html.user.*;
+import views.html.customer.*;
 import views.html.sale.sales;
 
 public class UserController extends Controller {
@@ -87,18 +86,14 @@ public class UserController extends Controller {
     /**
      * Add an item to cart
      */
-    public Result addToCart() throws CloneNotSupportedException {
+    public Result addToCart() {
         int itemId = Integer.parseInt(Form.form().bindFromRequest().get("item"));
         
         User user = User.find.byId(session().get("username"));
         Item item = Item.find.byId(itemId);
         
-        CartItem cartItem = new CartItem();
-        cartItem = (Item) item.clone();
-        cartItem.setQuantity(1);
-        if (user.getCart().contains(cartItem)) return ok("Item already added to cart.");
-     
-        user.getCart().add((CartItem) cartItem);
+        if (user.getCart().contains(item)) return ok("Item already added to cart.");
+        user.getCart().add(item);
         user.save();
         
         return ok("Item added to cart.");
@@ -109,7 +104,7 @@ public class UserController extends Controller {
      */
     public Result removeFromCart(int id) {
         User user = User.find.byId(session().get("username"));
-        CartItem item = CartItem.find.byId(id);
+        Item item = Item.find.byId(id);
         user.getCart().remove(item);
         user.save();
         return ok("Item removed from cart");

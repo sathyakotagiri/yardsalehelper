@@ -1,4 +1,4 @@
-@(shoppingCart: List[CartItem])
+@(shoppingCart: List[Item])
 
 @dashboard("View Cart") {
     <div id='cart'>
@@ -6,6 +6,7 @@
         @if(!shoppingCart.isEmpty()) {
 
             <h2>SHOPPING CART</h2>
+            <span id='instr'>Please select payment type and insert your card before proceeding.</span>
             <div id='nonempty-cart'>
                 <div id='cart-list'>
                 @for(item <- shoppingCart) {
@@ -52,8 +53,6 @@
                                     }
                                 });
                             });
-                            //remember the previous input
-                            $(".quantity-input").val(@item.getQuantity());
                         </script>
                     </div>
                 }
@@ -65,6 +64,22 @@
                         <hr><span>Subtotal: </span>
                         <span id='subtotal'></span><hr>
                     </div>
+                    <span>Payment Type: </span>
+                    <div id='payment-options'>
+                        <div>
+                            <input type="radio" name="type" value="Visa">
+                            <img src='@routes.Assets.versioned("img/visa.png")'>
+                        </div>
+                        <div>
+                            <input type="radio" name="type" value="MasterCard">
+                            <img src='@routes.Assets.versioned("img/mastercard.png")'>
+                        </div>
+                        <div>
+                            <input type="radio" name="type" value="Discover">
+                            <img src='@routes.Assets.versioned("img/discover.png")'>
+                        </div>
+                    </div>
+
                     <a id='securepayment' class='red-btn'>Pay Now</a>
                 </div>
                 <script>
@@ -83,7 +98,7 @@
                         $('#subtotal').text('$' + Math.round(subtotal() * 100) / 100);
                     });
                     
-                    //proceed to payment
+                    //submit payment
                     $('#securepayment').click(function() {
                         var req = {};
                         var cart = '';
@@ -96,12 +111,19 @@
                             cart += key + '=' + value + " ";
                         }
                         req['cart'] = cart.trim();
-                        $.post('/payment', 
-                            req,
-                            function(data, status) {
-                                return;
+                        req['paymentType'] = $('input[name=type]:checked').val();
+                        req['total'] = Math.round(subtotal() * 100) / 100;
+                        $.ajax({
+                            url: '/transaction',
+                            type: 'POST',
+                            data: req,
+                            success: function(data, status) {
+                                $('#main-content').html(data);
+                            },
+                            error: function() {
+                                console.log("Error occurs. Please try again.");
                             }
-                        );
+                        });
                     });
                 </script>
             </div>

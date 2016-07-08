@@ -6,49 +6,49 @@ import play.data.Form;
 
 import models.User;
 import models.Item;
-import models.CartItem;
+import models.Transaction;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.HashMap;
 
 import com.google.common.base.Splitter;
 
-import views.html.transaction.*;
+import views.html.customer.*;
 
 public class TranController extends Controller {
     
     /**
-     * Render payment page
+     * Parse a user's final cart and add transaction
      */
-    public Result payment() {
-        return ok(payment.render());
-    }
-    
-    /**
-     * Parse and store a user's final cart
-     */
-    public Result parseCart() throws CloneNotSupportedException {
+    public Result parseCart() {
+        Map<Item, Integer> receiptItems = new HashMap<Item, Integer>(); 
+        
         User user = User.find.byId(session().get("username"));
-        List<CartItem> userCart = user.getCart();
-        userCart.clear();
+        List<Item> userCart = user.getCart();
+//        userCart.clear();
         
         String cartStr = Form.form().bindFromRequest().get("cart");
+        String type = Form.form().bindFromRequest().get("paymentType");
+        double total = Double.parseDouble(Form.form().bindFromRequest().get("total"));
+        
+        System.out.println(cartStr);
+        System.out.println(type);
+        System.out.println(total);
+        
         Map<String, String> cart = splitToMap(cartStr);
         for (Map.Entry<String, String> entry : cart.entrySet()) {
             int id = Integer.parseInt(entry.getKey());
             int quantity = Integer.parseInt(entry.getValue());
             
             Item item = Item.find.byId(id);
-            CartItem cartItem = new CartItem();
-            cartItem = (CartItem) item.clone();
-            cartItem.setQuantity(quantity);
-            userCart.add(cartItem);
+            receiptItems.put(item, quantity);
         }
+        
         user.save();
-        System.out.println("success");
-        return redirect("/payment");
+        return ok("Okokok");
     }
     
     /**
@@ -56,5 +56,14 @@ public class TranController extends Controller {
      */
     private Map<String, String> splitToMap(String in) {
         return Splitter.on(" ").withKeyValueSeparator("=").split(in);
+    }
+    
+    /**
+     * Render the receipt
+     * @(items: Map[Item, Integer])(paymentType: String)(total: Double)
+     */
+    public Result generateReceipt() {
+        System.out.println("Testing");
+        return ok(receipt.render()).as("text/html");
     }
 }

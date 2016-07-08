@@ -31,8 +31,7 @@ GET     /tag/item/:id       controllers.SaleController.printTag(id: Integer)
 GET     /tag/sale/:id        controllers.SaleController.printTags(id: Integer)
 
 # Transaction routes
-GET       /payment           controllers.TranController.payment
-POST     /payment           controllers.TranController.parseCart
+POST     /transaction           controllers.TranController.generateReceipt
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file          controllers.Assets.versioned(path="/public", file: Asset)
