@@ -1,6 +1,6 @@
-@(implicit shoppingCart: List[Item])
+@(shoppingCart: List[CartItem])
 
-@checkout("View Cart") {
+@dashboard("View Cart") {
     <div id='cart'>
         
         @if(!shoppingCart.isEmpty()) {
@@ -17,14 +17,14 @@
                         }
                         <div class='cart-item-des'>
                             <div>
-                                <span>#@item.getItemId()</span>
+                                <span class='cart-item-id'>#@item.getItemId()</span>
                                 <span>@item.getTitle()</span>
-                                <span class='cart-item-price'>$@item.getPrice()</span>
+                                <span class='cart-item-price'>$<span class='price-data'>@item.getPrice()</span></span>
                             </div>
                             <div>Stock: @item.getStock()</div>
                             <div class='cart-item-q'>
                                 <span>Quantity: &nbsp;</span>
-                                <select name="select" class='quantity-input cart-item-q item@item.getItemId()' onfocus="this.oldvalue = this.value;">
+                                <select name="q" class='quantity-input'>
                                     <option value="1">1</option> 
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -52,6 +52,8 @@
                                     }
                                 });
                             });
+                            //remember the previous input
+                            $(".quantity-input").val(@item.getQuantity());
                         </script>
                     </div>
                 }
@@ -60,11 +62,48 @@
                 <div id='cart-summary'>
                     <h5>SUMMARY</h5>
                     <div>
-                        <hr><span>Subtotal:</span>
+                        <hr><span>Subtotal: </span>
                         <span id='subtotal'></span><hr>
                     </div>
-                    <a href='/payment' class='red-btn'>Pay Now</a>
+                    <a id='securepayment' class='red-btn'>Pay Now</a>
                 </div>
+                <script>
+                    //calculate subtotal and update it when amounts change
+                    $('#subtotal').text('$' + Math.round(subtotal() * 100) / 100);
+                    function subtotal() {
+                        var items = $('.cart-item-container');
+                        var subtotal = 0;
+                        for (var i = 0; i < items.length; i++) {
+                            var $item = items[i];
+                            subtotal += $('.price-data', $item).text() * $('.quantity-input', $item).val();
+                        }
+                        return subtotal;
+                    }
+                    $('.quantity-input').change(function() {
+                        $('#subtotal').text('$' + Math.round(subtotal() * 100) / 100);
+                    });
+                    
+                    //proceed to payment
+                    $('#securepayment').click(function() {
+                        var req = {};
+                        var cart = '';
+                        //record the items and respective quantities
+                        var items = $('.cart-item-container');
+                        for (var i = 0; i < items.length; i++) {
+                            var $item = items[i];
+                            var key = $('.cart-item-id', $item).text().replace('#', '');
+                            var value = $('.quantity-input', $item).val();
+                            cart += key + '=' + value + " ";
+                        }
+                        req['cart'] = cart.trim();
+                        $.post('/payment', 
+                            req,
+                            function(data, status) {
+                                return;
+                            }
+                        );
+                    });
+                </script>
             </div>
 
         } else {

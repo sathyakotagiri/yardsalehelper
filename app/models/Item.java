@@ -24,9 +24,6 @@ public class Item extends Model implements Cloneable {
     @Lob
     private byte[] image;
     
-    @ManyToMany
-    private List<User> customers = new ArrayList<User>();
-    
     public static Finder<Integer, Item> find = new Finder<Integer, Item>(Item.class);
     
     /**

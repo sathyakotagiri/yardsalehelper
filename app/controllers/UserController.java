@@ -7,6 +7,7 @@ import play.data.Form;
 import models.User;
 import models.Sale;
 import models.Item;
+import models.CartItem;
 
 import java.util.List;
 
@@ -92,11 +93,12 @@ public class UserController extends Controller {
         User user = User.find.byId(session().get("username"));
         Item item = Item.find.byId(itemId);
         
-        Item cartItem = new Item();
+        CartItem cartItem = new CartItem();
         cartItem = (Item) item.clone();
+        cartItem.setQuantity(1);
         if (user.getCart().contains(cartItem)) return ok("Item already added to cart.");
      
-        user.getCart().add(cartItem);
+        user.getCart().add((CartItem) cartItem);
         user.save();
         
         return ok("Item added to cart.");
@@ -107,7 +109,7 @@ public class UserController extends Controller {
      */
     public Result removeFromCart(int id) {
         User user = User.find.byId(session().get("username"));
-        Item item = Item.find.byId(id);
+        CartItem item = CartItem.find.byId(id);
         user.getCart().remove(item);
         user.save();
         return ok("Item removed from cart");

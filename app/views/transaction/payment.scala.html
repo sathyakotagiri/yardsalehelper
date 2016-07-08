@@ -1,0 +1,31 @@
+@dashboard("Pay Securely") {
+    <div id='payment'>
+        <div>Please select payment type, swipe your card and click continue.</div>
+        <div id='payment-methods'>
+            <div>
+                <input type="radio" name="type" value="Visa">
+                <img src='@routes.Assets.versioned("img/visa.png")'>
+            </div>
+            <div>
+                <input type="radio" name="type" value="MasterCard">
+                <img src='@routes.Assets.versioned("img/mastercard.png")'>
+            </div>
+            <div>
+                <input type="radio" name="type" value="Maestro">
+                <img src='@routes.Assets.versioned("img/maestro.png")'>
+            </div>
+            <div>
+                <input type="radio" name="type" value="Discover">
+                <img src='@routes.Assets.versioned("img/discover.png")'>
+            </div>
+            <div>
+                <input type="radio" name="type" value="American Express">
+                <img src='@routes.Assets.versioned("img/american-express.png")'>
+            </div>
+        </div>
+        <div>
+            <a class='red-btn' href='/cart'>Back to Cart</a>
+            <a class='blue-btn' href='/processpayment'>Continue</a>
+        </div>
+    </div>
+}

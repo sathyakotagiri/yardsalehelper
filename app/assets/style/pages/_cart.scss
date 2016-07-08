@@ -110,3 +110,8 @@
         font-size: 13px;
     }
 }
+#payment {
+    @include center(column);
+    padding-top: 25%;
+    font-size: 16px;
+}

@@ -25,10 +25,14 @@ GET     /item/img/:id      controllers.SaleController.getItemImg(id: Integer)
 POST   /item                   controllers.SaleController.addItem
 POST   /item/edit           controllers.SaleController.editItem
 
-#Sale-related routes
+# Sale-related routes
 GET     /tag                      controllers.SaleController.tag
 GET     /tag/item/:id       controllers.SaleController.printTag(id: Integer)
 GET     /tag/sale/:id        controllers.SaleController.printTags(id: Integer)
+
+# Transaction routes
+GET       /payment           controllers.TranController.payment
+POST     /payment           controllers.TranController.parseCart
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file          controllers.Assets.versioned(path="/public", file: Asset)
