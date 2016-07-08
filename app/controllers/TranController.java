@@ -4,51 +4,62 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.data.Form;
 
-import models.User;
-import models.Item;
 import models.Transaction;
+import models.User;
+import models.Sale;
+import models.Item;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.HashMap;
 
 import com.google.common.base.Splitter;
-
-import views.html.customer.*;
 
 public class TranController extends Controller {
     
     /**
-     * Parse a user's final cart and add transaction
+     * Save a new transaction to the database and decrease item quantities
      */
-    public Result parseCart() {
-        Map<Item, Integer> receiptItems = new HashMap<Item, Integer>(); 
-        
-        User user = User.find.byId(session().get("username"));
+    public Result addTransaction() {
+        String userId = session().get("username");
+        User user = User.find.byId(userId);
+
+        //decrease item quantities
         List<Item> userCart = user.getCart();
-//        userCart.clear();
+        userCart.clear();
         
         String cartStr = Form.form().bindFromRequest().get("cart");
-        String type = Form.form().bindFromRequest().get("paymentType");
-        double total = Double.parseDouble(Form.form().bindFromRequest().get("total"));
-        
-        System.out.println(cartStr);
-        System.out.println(type);
-        System.out.println(total);
-        
         Map<String, String> cart = splitToMap(cartStr);
         for (Map.Entry<String, String> entry : cart.entrySet()) {
             int id = Integer.parseInt(entry.getKey());
             int quantity = Integer.parseInt(entry.getValue());
             
             Item item = Item.find.byId(id);
-            receiptItems.put(item, quantity);
+            int saleId = item.getSaleId();
+            Sale sale = Sale.find.byId(saleId);
+            item.setStock(item.getStock() - quantity);
+            item.save();
+            if (item.getStock() == 0) {
+                item.delete();
+                sale.setSize(sale.getSize() - 1);
+                sale.save();
+                if (sale.getSize() == 0) {
+                    sale.delete();
+                }
+            }
         }
         
+        //save the transaction
+        Transaction transaction = new Transaction();
+        double total = Double.parseDouble(Form.form().bindFromRequest().get("total"));
+
+        transaction.setCustomerId(userId);
+        transaction.setTotal(total);
+
+        transaction.save();
+        
         user.save();
-        return ok("Okokok");
+        return ok("Transaction added.");
     }
     
     /**
@@ -56,14 +67,5 @@ public class TranController extends Controller {
      */
     private Map<String, String> splitToMap(String in) {
         return Splitter.on(" ").withKeyValueSeparator("=").split(in);
-    }
-    
-    /**
-     * Render the receipt
-     * @(items: Map[Item, Integer])(paymentType: String)(total: Double)
-     */
-    public Result generateReceipt() {
-        System.out.println("Testing");
-        return ok(receipt.render()).as("text/html");
     }
 }

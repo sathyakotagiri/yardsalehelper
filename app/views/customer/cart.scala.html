@@ -91,39 +91,51 @@
                         for (var i = 0; i < items.length; i++) {
                             var $item = items[i];
                             subtotal += $('.price-data', $item).text() * $('.quantity-input', $item).val();
+                            
                         }
                         return subtotal;
                     }
                     $('.quantity-input').change(function() {
                         $('#subtotal').text('$' + Math.round(subtotal() * 100) / 100);
                     });
-                    
                     //submit payment
                     $('#securepayment').click(function() {
-                        var req = {};
-                        var cart = '';
-                        //record the items and respective quantities
-                        var items = $('.cart-item-container');
-                        for (var i = 0; i < items.length; i++) {
-                            var $item = items[i];
-                            var key = $('.cart-item-id', $item).text().replace('#', '');
-                            var value = $('.quantity-input', $item).val();
-                            cart += key + '=' + value + " ";
-                        }
-                        req['cart'] = cart.trim();
-                        req['paymentType'] = $('input[name=type]:checked').val();
-                        req['total'] = Math.round(subtotal() * 100) / 100;
-                        $.ajax({
-                            url: '/transaction',
-                            type: 'POST',
-                            data: req,
-                            success: function(data, status) {
-                                $('#main-content').html(data);
-                            },
-                            error: function() {
-                                console.log("Error occurs. Please try again.");
+                        if ($('input[name=type]:checked').length === 0) {
+                            $('#instr').addClass('red');
+                        } else {
+                            var receipts = $('.receipt');
+                            var items = $('.cart-item-container');
+                            var cart = '';
+                            for (var i = 0; i < receipts.length; i++) {
+                                var $receipt = receipts[i];
+                                var $item = items[i];
+                                var key = $('.cart-item-id', $item).text().replace('#', '');
+                                var value = $('.quantity-input', $item).val();
+                                cart += key + '=' + value + " ";
                             }
-                        });
+                            var req = {};
+                            req['total'] = Math.round(subtotal() * 100) / 100;
+                            req['cart'] = cart.trim();
+                            $.ajax({
+                                url: '/transaction',
+                                type: 'POST',
+                                data: req,
+                                success: function(data, status) {
+                                    for (var i = 0; i < receipts.length; i++) {
+                                        var $receipt = receipts[i];
+                                        var $item = items[i];
+                                        $('.receipt-quantity', $receipt).text($('.quantity-input', $item).val());
+                                        $('#receipt-total').text('Total: ' + Math.round(subtotal() * 100) / 100);
+                                        $('#payment-type').text('Payment method: ' + $('input[name=type]:checked').val());
+                                        $('#layer').show();
+                                        $('#receipts').addClass('show');
+                                    }
+                                },
+                                error: function() {
+                                    console.log('Error occurs. Please try again.');
+                                }
+                            });
+                        }
                     });
                 </script>
             </div>
@@ -135,5 +147,18 @@
             </div>
         }
 
+    </div>
+    <div id='receipts'>
+        <a class='red-btn' href='/cart'>Back</a>
+        @for(item <- shoppingCart) {
+            <div class='receipt'>
+                <span class='receipt-id'>#@item.getItemId()</span>
+                <span class='receipt-title'>@item.getTitle()</span>
+                <span class='receipt-quantity'></span>
+                <span>$@item.getPrice()</span>
+            </div>
+        }
+        <span id='receipt-total'></span>
+        <span id='payment-type'></span>
     </div>
 }

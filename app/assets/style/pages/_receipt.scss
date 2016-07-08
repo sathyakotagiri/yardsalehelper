@@ -1,0 +1,52 @@
+#receipts {
+    position: fixed;
+    visibility: collapse;
+    top: 50%;
+    left: 50%;
+    margin-top: -11em;
+    margin-left: -13em;
+    width: 26em;
+    height: 22em;
+    padding: 2em 1em 2em 3em;
+    background-color: lighten($pale-grey, 5%);
+    box-shadow: 0 0 2em $blue-grey;
+    .red-btn {
+        margin-top: 0;
+        margin-bottom: 1em;
+        right: 0;
+    }
+    > span {
+        display: block;
+    }
+    #receipt-total {
+        margin-top: 3em;
+    }
+    #payment-type {
+        margin-top: 1.5em;
+    }
+}
+#receipts.show {
+    visibility: visible;
+}
+.receipt {
+    margin: 1em 0;
+    span {
+        display: inline-block;
+    }
+    .receipt-id {
+        width: 3.5em;
+    }
+    .receipt-title {
+        width: 12.5em;
+    }
+    .receipt-quantity {
+        width: 3.5em;
+    }
+}
+#layer {
+    position: absolute;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}

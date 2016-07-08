@@ -1,6 +1,6 @@
 # Routes
 
-# Authetication
+# Authetication routes
 GET       /                           controllers.AuthController.index
 POST     /login                   controllers.AuthController.authenticate
 GET       /signup                controllers.AuthController.signup
@@ -30,8 +30,8 @@ GET     /tag                      controllers.SaleController.tag
 GET     /tag/item/:id       controllers.SaleController.printTag(id: Integer)
 GET     /tag/sale/:id        controllers.SaleController.printTags(id: Integer)
 
-# Transaction routes
-POST     /transaction           controllers.TranController.generateReceipt
+# Transaction route
+POST     /transaction           controllers.TranController.addTransaction
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file          controllers.Assets.versioned(path="/public", file: Asset)

@@ -11,6 +11,9 @@
     font-size: 13px;
     margin-left: 7.5em;
 }
+#instr.red {
+    color: $light-red;
+}
 #empty-cart {
     @include center(column);
 }
