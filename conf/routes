@@ -10,20 +10,24 @@ GET       /logout                 controllers.AuthController.logout
 # User routes
 GET     /user                    controllers.UserController.index
 GET    /profile                 controllers.UserController.profile
-POST   /profile                 controllers.UserController.editProfile 
-POST  /profile/changepass   controllers.UserController.changePass
+PUT    /profile                 controllers.UserController.editProfile 
+PUT    /profile/changepass   controllers.UserController.changePass
 GET     /cart                    controllers.UserController.getCart
 POST   /cart                    controllers.UserController.addToCart
-DELETE   /cart/:id         controllers.UserController.removeFromCart(id: Integer)
+DELETE   /cart/:id          controllers.UserController.removeFromCart(id: Integer)
+GET     /accounts             controllers.UserController.accounts
+PUT     /accounts/:id       controllers.UserController.toggleStatus(id: String)
+GET     /report                 controllers.UserController.report
 
 # Sale routes
 GET     /sale/:id               controllers.SaleController.index(id: Integer)
 GET     /sale/img/:id       controllers.SaleController.getSaleImg(id: Integer)
 POST   /sale                     controllers.SaleController.add
+DELETE  /sale/:id            controllers.SaleController.remove(id: Integer)
 GET     /item/:id              controllers.SaleController.getItem(id: Integer)
 GET     /item/img/:id      controllers.SaleController.getItemImg(id: Integer)
-POST   /item                   controllers.SaleController.addItem
-POST   /item/edit           controllers.SaleController.editItem
+POST   /item                    controllers.SaleController.addItem
+PUT     /item                    controllers.SaleController.editItem
 
 # Sale-related routes
 GET     /tag                      controllers.SaleController.tag

@@ -1,0 +1,14 @@
+#financial-report {
+    @include center(column);
+    padding: 3em 0;
+    > div {
+        margin: 1em 0;
+    }
+    .left-col {
+        display: inline-block;
+        width: 30em;
+    }
+    #report-total {
+        margin-top: 2em;
+    }
+}

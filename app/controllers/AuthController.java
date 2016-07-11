@@ -43,9 +43,23 @@ public class AuthController extends Controller {
         User user = User.find.byId(username);
         if (user == null) {
             return ok(login.render("User not found"));
+        } else if (user.getLocked()) {
+            return ok(login.render("Account locked. Please contact admin."));
         } else if (!user.getPwd().equals(pwd)) {
+            String bad = session().get("badLogin");
+            if (bad == null) session("badLogin", "0");
+            else {
+                int b = Integer.parseInt(bad) + 1;
+                session("badLogin", Integer.toString(b));
+            }
+            if (Integer.parseInt(session().get("badLogin")) > 3) {
+                user.setLocked(true);
+                user.save();
+                return ok(login.render("Account locked due to multiple failed login attempts. Please contact the admin."));
+            }
             return ok(login.render("Authentication fails. Please check your credentials."));
         } else {
+            session("badLogin", "0");
             session("username", username);
             session("name", user.getName());
             return redirect("/user");

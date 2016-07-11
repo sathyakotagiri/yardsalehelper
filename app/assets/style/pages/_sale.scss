@@ -12,3 +12,24 @@ input[type=text].input-short {
     width: 7.5em;
     margin: 0 2em;
 }
+#confirmation {
+    position: fixed;
+    visibility: collapse;
+    top: 50%;
+    left: 50%;
+    margin-top: -3em;
+    margin-left: -7.5em;
+    width: 15em;
+    height: 6em;
+    padding: 1.5em 1em 0.5em;
+    text-align: center;
+    background-color: lighten($pale-grey, 5%);
+    box-shadow: 0 0 2em $blue-grey;
+    z-index: 3;
+    div {
+        margin: auto;
+    }
+    &.show {
+        visibility: visible;
+    }
+}

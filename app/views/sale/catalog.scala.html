@@ -12,6 +12,9 @@
     @if(sale.getSellerId().equals(session.get("username"))) {
         <span class='blue-btn' id='add-catalog-item'>Add Item</span>
     }
+    @if(sale.getAdminId().equals(session.get("username"))) {
+        <span class='grey-btn' id='close-sale'>Close Sale</span>
+    }
     
     <input type='text' id='search-item' placeholder="Search for an item ... ">
     
@@ -37,6 +40,14 @@
         }
     </ul>
 
+</div>
+
+<div id='confirmation'>
+    <span>Are you sure?</span>
+    <div>
+        <span class='red-btn' id='confirm-close'>Yes</span>
+        <span class='grey-btn' id='dismiss'>No</span>
+    </div>
 </div>
 
 <script>
@@ -100,6 +111,31 @@
         var $content = $(this).val().toLowerCase();
         $(".list-item-container").each(function() {
             $(this).toggle(!$content.length || $(".list-item-title", this).text().toLowerCase().includes($content));
+        });
+    });
+    
+    //display close sale confirmation modal
+    $('#close-sale').click(function() {
+        $('#layer').show();
+        $('#confirmation').addClass('show');
+    });
+    
+    $('#dismiss').click(function() {
+        $('#layer').hide();
+        $('#confirmation').removeClass('show');        
+    });
+    
+    //send close sale request to server
+    $("#confirm-close").click(function() {
+        $.ajax({
+            url: '/sale/@sale.getSaleId()',
+            type: 'DELETE',
+            success: function(data, status) {
+                window.location.href = '/user';
+            },
+            error: function() {
+                console.log("Error occurs. Please try again.");
+            }
         });
     });
 </script>

@@ -1,0 +1,20 @@
+@(transactions: List[Transaction])(total: Double)
+
+@dashboard("View Financial Report") {
+
+    <div id='financial-report'>
+        @for(entry <- transactions) {
+            <div>
+                <span class='left-col'>#@entry.getTransactionId() &nbsp; 
+                    Customer: @entry.getCustomerId()</span>
+                <span>$@entry.getTotal()</span>
+            </div>
+        }
+        <div id='report-total'></div>
+
+        <script>
+            $('#report-total').text('Total: $' + Math.round(@total * 100) / 100);
+        </script>
+    </div>
+
+}

@@ -13,6 +13,7 @@ public class Sale extends Model {
     private int saleId;
     
     private String sellerId;
+    private String adminId;
     private String title;
     private String location;
     private int size;
@@ -29,6 +30,9 @@ public class Sale extends Model {
     }
     public String getSellerId() {
         return sellerId;
+    }
+    public String getAdminId() {
+        return adminId;
     }
     public String getTitle() {
         return title;
@@ -51,6 +55,9 @@ public class Sale extends Model {
     }
     public void setSellerId(String sellerId) {
         this.sellerId = sellerId;
+    }
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
     }
     public void setTitle(String title) {
         this.title = title;

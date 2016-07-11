@@ -7,10 +7,11 @@ import play.data.Form;
 import models.User;
 import models.Sale;
 import models.Item;
+import models.Transaction;
 
 import java.util.List;
 
-import views.html.customer.*;
+import views.html.user.*;
 import views.html.sale.sales;
 
 public class UserController extends Controller {
@@ -108,5 +109,36 @@ public class UserController extends Controller {
         user.getCart().remove(item);
         user.save();
         return ok("Item removed from cart");
+    }
+    
+    /**
+     * Show a list of accounts and respective statuses
+     */
+    public Result accounts() {
+        List<User> users = User.find.all();
+        return ok(admin.render(users));
+    }
+    
+    /**
+     * Lock/unlock a user account
+     */
+    public Result toggleStatus(String id) {
+        User user = User.find.byId(id);
+        boolean status = user.getLocked();
+        user.setLocked(!status);
+        user.save();
+        return ok("Account status updated");
+    }
+    
+    /**
+     * Show a list of transactions as financial report
+     */
+    public Result report() {
+        List<Transaction> records = Transaction.find.all();
+        double total = 0.0;
+        for (Transaction record : records) {
+            total += record.getTotal();  
+        }
+        return ok(report.render(records, total));
     }
 }

@@ -62,8 +62,8 @@
                             formData.get('stock') < 0) {
                 $("#add-item-msg").text("Please enter valid price/stock.");
             } else $.ajax({
-                url: '/item/edit',
-                type: "POST",
+                url: '/item',
+                type: "PUT",
                 contentType: false,
                 data: formData,
                 processData: false,

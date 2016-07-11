@@ -65,10 +65,22 @@ public class SaleController extends Controller {
         newSale.setTitle(title);
         newSale.setLocation(location);
         newSale.setSellerId(session().get("username"));
+        newSale.setAdminId(session().get("username"));
         newSale.setSize(0);
         
         newSale.save();
         return ok("Sale added successfully.");
+    }
+    
+    /**
+     * Close a sale
+     */
+    public Result remove(int id) {
+        Sale sale = Sale.find.byId(id);
+        List<Item> list = Item.find.where().eq("saleId", id).findList();
+        list.forEach((item) -> item.delete());
+        sale.delete();
+        return ok("Sale closed.");
     }
     
     /**

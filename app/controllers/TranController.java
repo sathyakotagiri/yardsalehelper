@@ -23,11 +23,13 @@ public class TranController extends Controller {
     public Result addTransaction() {
         String userId = session().get("username");
         User user = User.find.byId(userId);
-
-        //decrease item quantities
+        
+        //clear user cart
         List<Item> userCart = user.getCart();
         userCart.clear();
+        user.save();
         
+        //decrease item quantities
         String cartStr = Form.form().bindFromRequest().get("cart");
         Map<String, String> cart = splitToMap(cartStr);
         for (Map.Entry<String, String> entry : cart.entrySet()) {
@@ -39,11 +41,11 @@ public class TranController extends Controller {
             Sale sale = Sale.find.byId(saleId);
             item.setStock(item.getStock() - quantity);
             item.save();
-            if (item.getStock() == 0) {
+            if (item.getStock() <= 0) {
                 item.delete();
                 sale.setSize(sale.getSize() - 1);
                 sale.save();
-                if (sale.getSize() == 0) {
+                if (sale.getSize() <= 0) {
                     sale.delete();
                 }
             }
@@ -58,7 +60,6 @@ public class TranController extends Controller {
 
         transaction.save();
         
-        user.save();
         return ok("Transaction added.");
     }
     

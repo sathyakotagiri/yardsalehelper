@@ -15,7 +15,7 @@
     @include center;
     visibility: collapse;
     position: fixed;
-    z-index: 1;
+    z-index: 3;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.3);
@@ -81,6 +81,7 @@
     > div > .red-btn {
         position: absolute;
         right: 5.5em;
+        z-index: 1;
     }
     ul {
         @include center(column);

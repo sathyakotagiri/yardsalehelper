@@ -20,6 +20,7 @@ public class User extends Model {
     private String name;
     private String phone;
     private String address;
+    private boolean locked;
     
     @ManyToMany
     private List<Item> cart = new ArrayList<Item>();
@@ -47,6 +48,9 @@ public class User extends Model {
     public String getAddress() {
         return address;
     }
+    public boolean getLocked() {
+        return locked;
+    }
     public List<Item> getCart() {
         return cart;
     }
@@ -71,6 +75,9 @@ public class User extends Model {
     }
     public void setAddress(String address) {
         this.address = address;
+    }
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
     public void setCart(List<Item> cart) {
         this.cart = cart;

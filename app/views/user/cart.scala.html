@@ -4,58 +4,70 @@
     <div id='cart'>
         
         @if(!shoppingCart.isEmpty()) {
-
+        
+            <!-- non-empty cart view -->
+        
             <h2>SHOPPING CART</h2>
             <span id='instr'>Please select payment type and insert your card before proceeding.</span>
             <div id='nonempty-cart'>
                 <div id='cart-list'>
-                @for(item <- shoppingCart) {
-                    <div class='cart-item-container'>
-                        @if(item.getImage() != null) {
-                            <div class='cart-item-pic' style='background-image: url(/item/img/@item.getItemId())'></div>
-                        } else {
-                            <div class='cart-item-img'><span>No Image Yet</span></div>
-                        }
-                        <div class='cart-item-des'>
-                            <div>
-                                <span class='cart-item-id'>#@item.getItemId()</span>
-                                <span>@item.getTitle()</span>
-                                <span class='cart-item-price'>$<span class='price-data'>@item.getPrice()</span></span>
+                    @for((item, index) <- shoppingCart.zipWithIndex) {
+                                 
+                        <div class='cart-item-container'>
+                    
+                            @if(item.getImage() != null) {
+                                <div class='cart-item-pic' style='background-image: url(/item/img/@item.getItemId())'></div>
+                            } else {
+                                <div class='cart-item-img'><span>No Image Yet</span></div>
+                            }
+                    
+                            <div class='cart-item-des'>
+                                <div>
+                                    <span class='cart-item-id'>#@item.getItemId()</span>
+                                    <span>@item.getTitle()</span>
+                                    <span class='cart-item-price'>$<span class='price-data'>@item.getPrice()</span></span>
+                                </div>
+                                <div>Stock: <span class='cart-item-stock'>@item.getStock()</span></div>
+                                <div class='cart-item-q'>
+                                    <span>Quantity: &nbsp;</span>
+                                    <select name="q" class='quantity-input'>
+                                        <option value="1">1</option> 
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                    </select>
+                                    <span id='quantity-msg'></span>
+                                </div>
+                                <div><a class='cart-item-delete'>Delete</a></div>
                             </div>
-                            <div>Stock: @item.getStock()</div>
-                            <div class='cart-item-q'>
-                                <span>Quantity: &nbsp;</span>
-                                <select name="q" class='quantity-input'>
-                                    <option value="1">1</option> 
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                </select>
-                            </div>
-                            <div><a class='cart-item-delete'>Delete</a></div>
+                    
+                            <script>
+                                //remove an item from cart
+                                var buttons = document.getElementsByClassName('cart-item-delete');
+                                for (var i = 0; i < buttons.length; i++) {
+                                  buttons[i].onclick = function() {
+                                      var url = '/cart/@shoppingCart.get(shoppingCart.length - 1 - index).getItemId()';
+                                      $.ajax({
+                                            url: url,
+                                            type: 'DELETE',
+                                            success: function(data, status) {
+                                                location.reload();
+                                                return;
+                                            },
+                                            error: function() {
+                                                console.log("Error occurs. Please try again.");
+                                            }
+                                        });
+                                  }
+                                }
+                            </script>
                         </div>
-                        <script>
-                            //remove an item from cart
-                            $(".cart-item-delete").click(function() {
-                                $.ajax({
-                                    url: '/cart/@item.getItemId()',
-                                    type: 'DELETE',
-                                    success: function(data, status) {
-                                        location.reload();
-                                    },
-                                    error: function() {
-                                        console.log("Error occurs. Please try again.");
-                                    }
-                                });
-                            });
-                        </script>
-                    </div>
-                }
+                    }
                 </div>
 
                 <div id='cart-summary'>
@@ -82,6 +94,7 @@
 
                     <a id='securepayment' class='red-btn'>Pay Now</a>
                 </div>
+        
                 <script>
                     //calculate subtotal and update it when amounts change
                     $('#subtotal').text('$' + Math.round(subtotal() * 100) / 100);
@@ -91,18 +104,20 @@
                         for (var i = 0; i < items.length; i++) {
                             var $item = items[i];
                             subtotal += $('.price-data', $item).text() * $('.quantity-input', $item).val();
-                            
                         }
                         return subtotal;
                     }
                     $('.quantity-input').change(function() {
                         $('#subtotal').text('$' + Math.round(subtotal() * 100) / 100);
                     });
+                    
                     //submit payment
                     $('#securepayment').click(function() {
                         if ($('input[name=type]:checked').length === 0) {
                             $('#instr').addClass('red');
                         } else {
+                            
+                            //record items and respective quantities
                             var receipts = $('.receipt');
                             var items = $('.cart-item-container');
                             var cart = '';
@@ -111,8 +126,15 @@
                                 var $item = items[i];
                                 var key = $('.cart-item-id', $item).text().replace('#', '');
                                 var value = $('.quantity-input', $item).val();
+                                var stock = $('.cart-item-stock', $item).text();
+                                if (value > stock) {
+                                    $('#quantity-msg').text("Not enough item left in stock.");
+                                    return;
+                                }
                                 cart += key + '=' + value + " ";
                             }
+                            
+                            //send HTTP request for the payment and show the receipt
                             var req = {};
                             req['total'] = Math.round(subtotal() * 100) / 100;
                             req['cart'] = cart.trim();
@@ -140,7 +162,7 @@
                 </script>
             </div>
 
-        } else {
+        } else { <!-- empty cart view -->
             <div id='empty-cart'>
                 <span>Your cart is empty.</span>
                 <a href='/user' class='red-btn'>See the Deals</a>
@@ -148,8 +170,11 @@
         }
 
     </div>
+
+    <!-- receipt, shown when transaction is completed -->
     <div id='receipts'>
         <a class='red-btn' href='/cart'>Back</a>
+        <span>Receipt</span>
         @for(item <- shoppingCart) {
             <div class='receipt'>
                 <span class='receipt-id'>#@item.getItemId()</span>

@@ -1,0 +1,36 @@
+@(users: List[User])
+
+@dashboard("Manage Accounts") {
+    <div id='admin-view'>
+        @for(user <- users) {
+            <div>
+                <span class='account-name'>@user.getUsername()</span>
+                @if(user.getLocked()) {
+                    <span>
+                        <span class='account-status'>Locked</span>
+                        <a class='red-btn update-status'>Unlock</a>
+                    </span>
+                } else {
+                    <span>
+                        <span class='account-status'>Active</span>
+                        <a class='blue-btn update-status'>Lock</a>
+                    </span>
+                }
+            </div>
+            <script>
+                $('.update-status').click(function() {
+                    $.ajax({
+                        url: '/accounts/@user.getUsername()',
+                        type: 'PUT',
+                        success: function(data, status) {
+                            location.reload();
+                        },
+                        error: function() {
+                            console.log("Error occurs. Please try again.");
+                        }
+                    });
+                });
+            </script>
+        }
+    </div>
+}

@@ -17,8 +17,15 @@
                 <li onclick="window.location.href = '/user'"><img src="@routes.Assets.versioned("img/browse-sales.svg")">Browse Sales</li>
                 <li onclick="window.location.href = '/profile'"><img src="@routes.Assets.versioned("img/setting.svg")">User Profile</li>
                 <li onclick="window.location.href = '/tag'"><img src="@routes.Assets.versioned("img/tag.svg")">Print tags</li>
+                @if(session.get("username") == "admin") {
+                    <li onclick="window.location.href = '/accounts'"><img src="@routes.Assets.versioned("img/admin.svg")">Manage Users</li>
+                }
+                @if(session.get("username") == "bookkeeper") {
+                    <li onclick="window.location.href = '/report'"><img src="@routes.Assets.versioned("img/bookkeeper.svg")">Financial Report</li>
+                }
             </ul>
         </div>
+        
         <!-- hidden modal 1: open new sale -->
         <div class='modal' id='open-sale-modal'>
             <div class='modal-content' id='open-sale-content'>
@@ -36,37 +43,37 @@
                 <div class='modal-text'><span class='label'>Location: </span><input type='text' name='location' class='sale-info'></div>
             </div>
         </div>
+        
         <!-- hidden modal 2: add catalog item -->
         <div class='modal' id='add-item-modal'>
-        <div class='modal-content' id='add-item-content'>
-            <div class='modal-img-upload'>
-                <div class='modal-img' id='item-img'></div>
-                <div>
-                    <input id="img-input-b" type="file" name='image' accept='.jpg, .png, .bmp' style='display: none'> 
-                    <a onclick="document.getElementById('img-input-b').click();" class='blue-btn'>Upload Image</a>
-                    <a id='add-item'  class='red-btn'>Submit</a>
-                    <span class='grey-btn' id='hide-modal-b'>Cancel</span>
+            <div class='modal-content' id='add-item-content'>
+                <div class='modal-img-upload'>
+                    <div class='modal-img' id='item-img'></div>
+                    <div>
+                        <input id="img-input-b" type="file" name='image' accept='.jpg, .png, .bmp' style='display: none'> 
+                        <a onclick="document.getElementById('img-input-b').click();" class='blue-btn'>Upload Image</a>
+                        <a id='add-item'  class='red-btn'>Submit</a>
+                        <span class='grey-btn' id='hide-modal-b'>Cancel</span>
+                    </div>
+                </div>
+                <div id='add-item-msg'></div>
+                <div class='modal-text'><span class='label'>Title: </span><input type='text' name='title' class='item-info'></div>
+                <div class='modal-text'><span class='label'>Description: </span><input type='text' name='description' class='item-info'></div>
+                <div class='modal-text'>
+                    <span class='label short'>Price: </span><input type='text' name='price' class='item-info input-short'>
+                    <span class='label short'>Stock: </span><input type='text' name='stock' class='item-info input-short'>
                 </div>
             </div>
-            <div id='add-item-msg'></div>
-            <div class='modal-text'><span class='label'>Title: </span><input type='text' name='title' class='item-info'></div>
-            <div class='modal-text'><span class='label'>Description: </span><input type='text' name='description' class='item-info'></div>
-            <div class='modal-text'>
-                <span class='label short'>Price: </span><input type='text' name='price' class='item-info input-short'>
-                <span class='label short'>Stock: </span><input type='text' name='stock' class='item-info input-short'>
-            </div>
         </div>
-    </div>
-    <div id='layer'></div>
+        <div id='layer'></div>
         
         <div id='dashboard-main'>
             <div id='top-nav'>
                 <span id='leftmost'>WELCOME TO YARD SALE HELPER</span>
                 <span class='nav-option' onclick="window.location.href = '/logout'">LOG OUT</span>
-                <span class='nav-option' onclick="window.location.href = '/cart'"><i class="fa fa-shopping-cart"></i>
-</span>
+                <span class='nav-option' onclick="window.location.href = '/cart'"><i class="fa fa-shopping-cart"></i></span>
                 @if(session.isEmpty()) {
-                <span id='rightmost'>HELLO, PLEASE <a href='/'>LOG IN</a>.</span>
+                    <span id='rightmost'>HELLO, PLEASE <a href='/'>LOG IN</a>.</span>
                 } else {
                     <span id='rightmost'>@session.get("name")</span>
                 }
@@ -77,6 +84,7 @@
     </div>
     
     <script>
+        
         //show and hide the add sale modal
         $("#open-sale").click(function() {
             $("#open-sale-modal").addClass("show");
@@ -85,6 +93,7 @@
             $("#open-sale-modal").removeClass("show");
             $("#create-sale-msg").text("");
         });
+        
         //send add sale request to the server
         $("#create-sale").click(function() {
             var formData = new FormData();
@@ -111,6 +120,7 @@
                 }
             });
         });
+        
         //show image after uploading
         $("#img-input-a").change(function() {
             var file = document.getElementById("img-input-a").files[0];
