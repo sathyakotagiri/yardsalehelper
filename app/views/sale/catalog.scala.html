@@ -60,40 +60,40 @@
         $("#add-item-msg").text("");
     });
     
-     //send add catalog item request to the server
-        $("#add-item").click(function() {
-            var formData = new FormData();
-            var inputFile = document.getElementById('img-input-b').files[0];
-            formData.append('file', inputFile);
-            $('.item-info').map(function() {
-                formData.append($(this).attr("name"), $(this).val());
-            });
-            formData.append("saleId", @sale.getSaleId());
-            if (!formData.get('title').length || 
-                !formData.get('description').length || 
-                !formData.get('price').length || 
-                !formData.get('stock').length) {
-                $("#add-item-msg").text("Please complete all the fields.");
-            } else if (isNaN(formData.get('price')) || 
-                     formData.get('price') < 0 || 
-                     !Number.isInteger(parseInt(formData.get('stock'))) || 
-                     formData.get('stock') < 0) {
-                $("#add-item-msg").text("Please enter valid price/stock.");
-            } else $.ajax({
-                url: '/item',
-                type: "POST",
-                contentType: false,
-                data: formData,
-                processData: false,
-                success: function(data, status) {
-                    $("#add-item-modal").removeClass("show");
-                    location.reload();
-                },
-                error: function() {
-                    console.log("Error occurs. Please try again.")
-                }
-            });
+    //send add catalog item request to the server
+    $("#add-item").click(function() {
+        var formData = new FormData();
+        var inputFile = document.getElementById('img-input-b').files[0];
+        formData.append('file', inputFile);
+        $('.item-info').map(function() {
+            formData.append($(this).attr("name"), $(this).val());
         });
+        formData.append("saleId", @sale.getSaleId());
+        if (!formData.get('title').length || 
+            !formData.get('description').length || 
+            !formData.get('price').length || 
+            !formData.get('stock').length) {
+            $("#add-item-msg").text("Please complete all the fields.");
+        } else if (isNaN(formData.get('price')) || 
+                 formData.get('price') < 0 || 
+                 !Number.isInteger(parseInt(formData.get('stock'))) || 
+                 formData.get('stock') < 0) {
+            $("#add-item-msg").text("Please enter valid price/stock.");
+        } else $.ajax({
+            url: '/item',
+            type: "POST",
+            contentType: false,
+            data: formData,
+            processData: false,
+            success: function(data, status) {
+                $("#add-item-modal").removeClass("show");
+                location.reload();
+            },
+            error: function() {
+                console.log("Error occurs. Please try again.")
+            }
+        });
+    });
     
     //show image after uploading
     $("#img-input-b").change(function() {
@@ -114,12 +114,11 @@
         });
     });
     
-    //display close sale confirmation modal
+    //display/hide close sale confirmation modal
     $('#close-sale').click(function() {
         $('#layer').show();
         $('#confirmation').addClass('show');
     });
-    
     $('#dismiss').click(function() {
         $('#layer').hide();
         $('#confirmation').removeClass('show');        

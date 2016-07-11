@@ -50,9 +50,9 @@
                                 //remove an item from cart
                                 var buttons = document.getElementsByClassName('cart-item-delete');
                                 for (var i = 0; i < buttons.length; i++) {
-                                  buttons[i].onclick = function() {
-                                      var url = '/cart/@shoppingCart.get(shoppingCart.length - 1 - index).getItemId()';
-                                      $.ajax({
+                                    buttons[i].onclick = function() {
+                                        var url = '/cart/@shoppingCart.get(shoppingCart.length - 1 - index).getItemId()';
+                                        $.ajax({
                                             url: url,
                                             type: 'DELETE',
                                             success: function(data, status) {
@@ -63,7 +63,7 @@
                                                 console.log("Error occurs. Please try again.");
                                             }
                                         });
-                                  }
+                                    }
                                 }
                             </script>
                         </div>

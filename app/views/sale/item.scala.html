@@ -32,7 +32,7 @@
 </div>
 
 <script>
-     //show and hide the update catalog item modal
+    //show and hide the update catalog item modal
     $("#update-item").click(function() {
         $("#add-item-modal").addClass("show");
     });
@@ -42,40 +42,40 @@
     });
     
     //send update catalog item request to the server
-        $("#add-item").click(function() {
-            var formData = new FormData($('img-input-b'));
-            var inputFile = document.getElementById('img-input-b').files[0];
-            formData.append('file', inputFile);
-            $('.item-info').map(function() {
-                formData.append($(this).attr("name"), $(this).val());
-            });
-            formData.append("itemId", @entry.getItemId());
-            if (!formData.get('title').length && 
-                !formData.get('description').length && 
-                !formData.get('price').length && 
-                !formData.get('stock').length &&
-                formData.get('file') == 'undefined') {
-                $("#add-item-msg").text("No changes are made.");
-            } else if ((formData.get('price').length && (isNaN(formData.get('price')) || 
-                            formData.get('price') <= 0)) || 
-                           (formData.get('stock').length && !Number.isInteger(parseInt(formData.get('stock')))) || 
-                            formData.get('stock') < 0) {
-                $("#add-item-msg").text("Please enter valid price/stock.");
-            } else $.ajax({
-                url: '/item',
-                type: "PUT",
-                contentType: false,
-                data: formData,
-                processData: false,
-                success: function(data, status) {
-                    $("#add-item-modal").removeClass("show");
-                    location.reload();
-                },
-                error: function() {
-                    console.log("Error occurs. Please try again.");
-                }
-            });
+    $("#add-item").click(function() {
+        var formData = new FormData($('img-input-b'));
+        var inputFile = document.getElementById('img-input-b').files[0];
+        formData.append('file', inputFile);
+        $('.item-info').map(function() {
+            formData.append($(this).attr("name"), $(this).val());
         });
+        formData.append("itemId", @entry.getItemId());
+        if (!formData.get('title').length && 
+            !formData.get('description').length && 
+            !formData.get('price').length && 
+            !formData.get('stock').length &&
+            formData.get('file') == 'undefined') {
+            $("#add-item-msg").text("No changes are made.");
+        } else if ((formData.get('price').length && (isNaN(formData.get('price')) || 
+            formData.get('price') <= 0)) || 
+            (formData.get('stock').length && !Number.isInteger(parseInt(formData.get('stock')))) || 
+            formData.get('stock') < 0) {
+            $("#add-item-msg").text("Please enter valid price/stock.");
+        } else $.ajax({
+            url: '/item',
+            type: "PUT",
+            contentType: false,
+            data: formData,
+            processData: false,
+            success: function(data, status) {
+                $("#add-item-modal").removeClass("show");
+                location.reload();
+            },
+            error: function() {
+                console.log("Error occurs. Please try again.");
+            }
+        });
+    });
     
     //show image after uploading
     $("#img-input-b").change(function() {
