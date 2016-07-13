@@ -11,13 +11,17 @@ import models.Transaction;
 
 import java.util.List;
 
-import views.html.user.*;
+import views.html.user.admin;
+import views.html.user.cart;
+import views.html.user.profile;
+import views.html.user.report;
 import views.html.sale.sales;
 
 public class UserController extends Controller {
     
     /**
      * Render list of sales on the user home page
+     * @return result of API call
      */
     public Result index() {
         List<Sale> list = Sale.find.all();
@@ -26,6 +30,7 @@ public class UserController extends Controller {
     
     /**
      * Render user profile.
+     * @return result of API call
      */
     public Result profile() {
         User user = User.find.byId(session().get("username"));
@@ -35,6 +40,7 @@ public class UserController extends Controller {
     /**
      * Update user profile. Save information to the database
      * if fields are updated and validated. Otherwise, do nothing.
+     * @return result of API call
      */
     public Result editProfile() {
         String email = Form.form().bindFromRequest().get("email");
@@ -42,13 +48,24 @@ public class UserController extends Controller {
         String phone = Form.form().bindFromRequest().get("phone");
         String address = Form.form().bindFromRequest().get("address");
         
-        boolean invalidEmail = email.indexOf("@") == -1 || email.lastIndexOf(".") == -1 || email.lastIndexOf(".") == email.length() - 1 || email.lastIndexOf(".") - email.indexOf("@") <= 1;
+        boolean invalidEmail = email.indexOf("@") == -1 
+            || email.lastIndexOf(".") == -1 
+            || email.lastIndexOf(".") == email.length() - 1 
+            || email.lastIndexOf(".") - email.indexOf("@") <= 1;
         User user = User.find.byId(session().get("username"));
         
-        if (!email.isEmpty() && !invalidEmail) user.setEmail(email);
-        if (!name.isEmpty()) user.setName(name);
-        if (!phone.isEmpty()) user.setPhone(phone);
-        if (!address.isEmpty()) user.setAddress(address);
+        if (!email.isEmpty() && !invalidEmail) {
+            user.setEmail(email);
+        }
+        if (!name.isEmpty()) {
+            user.setName(name);
+        }
+        if (!phone.isEmpty()) {
+            user.setPhone(phone);
+        }
+        if (!address.isEmpty()) {
+            user.setAddress(address);
+        }
         user.save();
         
         session("name", user.getName());
@@ -58,6 +75,7 @@ public class UserController extends Controller {
     /**
      * Update user password. Save new password to the database if it is
      * valid and old password is correct. Otherwise, return error message.
+     * @return result of API call
      */
     public Result changePass() {
         String oldPass = Form.form().bindFromRequest().get("oldPass");
@@ -66,7 +84,8 @@ public class UserController extends Controller {
         User user = User.find.byId(session().get("username"));
         
         if (!user.getPwd().equals(oldPass)) {
-            return ok("Current password is incorrect. Please check for errors.");
+            return ok("Current password is incorrect. " 
+                      + "Please check for errors.");
         } else if (newPass.length() < 8) {
             return ok("New password must be at least 8 characters.");
         } else {
@@ -78,6 +97,7 @@ public class UserController extends Controller {
     
     /**
      * Render a user's current cart
+     * @return result of API call
      */
     public Result getCart() {
         User user = User.find.byId(session().get("username"));
@@ -86,14 +106,17 @@ public class UserController extends Controller {
      
     /**
      * Add an item to cart
+     * @return result of API call
      */
     public Result addToCart() {
-        int itemId = Integer.parseInt(Form.form().bindFromRequest().get("item"));
+        int id = Integer.parseInt(Form.form().bindFromRequest().get("item"));
         
         User user = User.find.byId(session().get("username"));
-        Item item = Item.find.byId(itemId);
+        Item item = Item.find.byId(id);
         
-        if (user.getCart().contains(item)) return ok("Item already added to cart.");
+        if (user.getCart().contains(item)) {
+            return ok("Item already added to cart.");
+        }
         user.getCart().add(item);
         user.save();
         
@@ -102,6 +125,8 @@ public class UserController extends Controller {
     
     /**
      * Remove an item from cart
+     * @param id the id of the item to be removed from cart
+     * @return result of API call
      */
     public Result removeFromCart(int id) {
         User user = User.find.byId(session().get("username"));
@@ -113,6 +138,7 @@ public class UserController extends Controller {
     
     /**
      * Show a list of accounts and respective statuses
+     * @return result of API call
      */
     public Result accounts() {
         List<User> users = User.find.all();
@@ -121,6 +147,8 @@ public class UserController extends Controller {
     
     /**
      * Lock/unlock a user account
+     * @param id the username of the user to be lock/unlock
+     * @return result of API call
      */
     public Result toggleStatus(String id) {
         User user = User.find.byId(id);
@@ -132,6 +160,7 @@ public class UserController extends Controller {
     
     /**
      * Show a list of transactions as financial report
+     * @return result of API call
      */
     public Result report() {
         List<Transaction> records = Transaction.find.all();

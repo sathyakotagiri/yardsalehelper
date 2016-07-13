@@ -19,6 +19,7 @@ public class TranController extends Controller {
     
     /**
      * Save a new transaction to the database and decrease item quantities
+     * @return result of API call
      */
     public Result addTransaction() {
         String userId = session().get("username");
@@ -53,7 +54,8 @@ public class TranController extends Controller {
         
         //save the transaction
         Transaction transaction = new Transaction();
-        double total = Double.parseDouble(Form.form().bindFromRequest().get("total"));
+        String totalStr = Form.form().bindFromRequest().get("total");
+        double total = Double.parseDouble(totalStr);
 
         transaction.setCustomerId(userId);
         transaction.setTotal(total);
@@ -65,6 +67,8 @@ public class TranController extends Controller {
     
     /**
      * Split the input string into a map
+     * @param in the input string
+     * @return the map after the split
      */
     private Map<String, String> splitToMap(String in) {
         return Splitter.on(" ").withKeyValueSeparator("=").split(in);

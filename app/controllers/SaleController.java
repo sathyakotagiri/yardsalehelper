@@ -15,13 +15,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import views.html.sale.*;
-import views.html.tag.*;
+import views.html.sale.catalog;
+import views.html.sale.item;
+import views.html.tag.tag;
+import views.html.tag.itemTag;
+import views.html.tag.catalogTags;
 
 public class SaleController extends Controller {
     
     /**
      * Get the catalog of a specific sale given the sale id
+     * @param id the id of the sale
+     * @return result of API call
      */
     public Result index(int id) {
         Sale sale = Sale.find.byId(id);
@@ -31,6 +36,8 @@ public class SaleController extends Controller {
     
     /**
      * Get the image of a sale
+     * @param id the id of the sale
+     * @return result of API call
      */
     public Result getSaleImg(int id) {
         Sale sale = Sale.find.byId(id);
@@ -39,6 +46,7 @@ public class SaleController extends Controller {
     
     /**
      * Save a new sale to the database
+     * @return result of API call
      */
     public Result add() {        
         Sale newSale = new Sale();
@@ -74,6 +82,8 @@ public class SaleController extends Controller {
     
     /**
      * Close a sale
+     * @param id the id of the sale which is to be closed
+     * @return result of API call
      */
     public Result remove(int id) {
         Sale sale = Sale.find.byId(id);
@@ -85,6 +95,8 @@ public class SaleController extends Controller {
     
     /**
      * Get a specific item given id
+     * @param id the id of the item
+     * @return result of API call
      */
     public Result getItem(int id) {
         Item entry = Item.find.byId(id);
@@ -94,6 +106,8 @@ public class SaleController extends Controller {
     
     /**
      * Get the image of an item
+     * @param id the id of the item
+     * @return result of API call
      */
     public Result getItemImg(int id) {
         Item item = Item.find.byId(id);
@@ -102,15 +116,19 @@ public class SaleController extends Controller {
     
     /**
      * Add an item to the catalog of the chosen sale
+     * @return result of API call
      */
     public Result addItem() {
         Item newItem = new Item();
         
         String title = Form.form().bindFromRequest().get("title");
         String description = Form.form().bindFromRequest().get("description");
-        double price = Double.parseDouble(Form.form().bindFromRequest().get("price"));
-        int stock = Integer.parseInt(Form.form().bindFromRequest().get("stock"));
-        int saleId = Integer.parseInt(Form.form().bindFromRequest().get("saleId"));
+        String priceStr = Form.form().bindFromRequest().get("price");
+        String stockStr = Form.form().bindFromRequest().get("stock");
+        String idStr = Form.form().bindFromRequest().get("saleId");
+        double price = Double.parseDouble(priceStr);
+        int stock = Integer.parseInt(stockStr);
+        int saleId = Integer.parseInt(idStr);
         MultipartFormData<File> body = request().body().asMultipartFormData();
         FilePart<File> imageFile = body.getFile("file");
         
@@ -144,13 +162,15 @@ public class SaleController extends Controller {
     
     /**
      * Update an item
+     * @return result of API call
      */
     public Result editItem() {
         String title = Form.form().bindFromRequest().get("title");
         String description = Form.form().bindFromRequest().get("description");
         String priceStr = Form.form().bindFromRequest().get("price");
         String stockStr = Form.form().bindFromRequest().get("stock");
-        int itemId = Integer.parseInt(Form.form().bindFromRequest().get("itemId"));
+        String idStr = Form.form().bindFromRequest().get("itemId");
+        int itemId = Integer.parseInt(idStr);
         MultipartFormData<File> body = request().body().asMultipartFormData();
         FilePart<File> imageFile = body.getFile("file");
         
@@ -170,10 +190,18 @@ public class SaleController extends Controller {
             }
         }
         
-        if (!title.isEmpty()) item.setTitle(title);
-        if (!description.isEmpty()) item.setDescription(description);
-        if (!priceStr.isEmpty()) item.setPrice(Double.parseDouble(priceStr));
-        if (!stockStr.isEmpty()) item.setStock(Integer.parseInt(stockStr));
+        if (!title.isEmpty()) {
+            item.setTitle(title);
+        }
+        if (!description.isEmpty()) {
+            item.setDescription(description);
+        }
+        if (!priceStr.isEmpty()) {
+            item.setPrice(Double.parseDouble(priceStr));
+        }
+        if (!stockStr.isEmpty()) {
+            item.setStock(Integer.parseInt(stockStr));
+        }
         item.save();
         
         return ok("Item updated successfully.");
@@ -181,6 +209,7 @@ public class SaleController extends Controller {
     
     /**
      * Render the print tag page
+     * @return result of API call
      */
     public Result tag() {
         return ok(tag.render());
@@ -188,14 +217,21 @@ public class SaleController extends Controller {
     
     /**
      * Fetch information about an item and render the tag
+     * @param id the id of the item
+     * @return result of API call
      */
     public Result printTag(int id) {
         Item item = Item.find.byId(id);
+        if (item == null) {
+            item = new Item();
+        }
         return ok(itemTag.render(item));
     }
     
     /**
      * Fetch information about a catalog and render the tags
+     * @param id the id of the sale whose catalog is to be rendered
+     * @return result of API call
      */
     public Result printTags(int id) {
         List<Item> list = Item.find.where().eq("saleId", id).findList();

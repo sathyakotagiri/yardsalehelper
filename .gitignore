@@ -7,3 +7,5 @@ tmp
 .map
 conf/evolutions
 .idea
+CS1332-checkstyle.xml
+checkstyle-6.18-all.jar

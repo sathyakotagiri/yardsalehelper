@@ -1,8 +1,8 @@
 #user-profile {
-    padding-top: 3em;
-    padding-left: 3em;
+    padding: 3em 0 2em 3em;
     @include center(column);
     align-items: flex-start;
+    background-color: lighten($pale-grey, 3%);
     h5 {
         @include font(22px);
         margin: 0 0 1.5em 2em;
