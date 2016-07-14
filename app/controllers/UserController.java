@@ -1,5 +1,4 @@
 package controllers;
-
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.data.Form;
@@ -16,44 +15,41 @@ import views.html.user.cart;
 import views.html.user.profile;
 import views.html.user.report;
 import views.html.sale.sales;
-
+/**
+ * controller for user.
+ */
 public class UserController extends Controller {
-    
     /**
-     * Render list of sales on the user home page
-     * @return result of API call
+     * Render list of sales on the user home page.
+     * @return result of API call.
      */
-    public Result index() {
+    public final Result index() {
         List<Sale> list = Sale.find.all();
         return ok(sales.render(list));
     }
-    
     /**
      * Render user profile.
-     * @return result of API call
+     * @return result of API call.
      */
-    public Result profile() {
+    public final Result profile() {
         User user = User.find.byId(session().get("username"));
         return ok(profile.render(user));
     }
-    
     /**
-     * Update user profile. Save information to the database
+     * Update user profile. Save information to the database.
      * if fields are updated and validated. Otherwise, do nothing.
-     * @return result of API call
+     * @return result of API call.
      */
-    public Result editProfile() {
+    public final Result editProfile() {
         String email = Form.form().bindFromRequest().get("email");
         String name = Form.form().bindFromRequest().get("name");
         String phone = Form.form().bindFromRequest().get("phone");
         String address = Form.form().bindFromRequest().get("address");
-        
-        boolean invalidEmail = email.indexOf("@") == -1 
-            || email.lastIndexOf(".") == -1 
-            || email.lastIndexOf(".") == email.length() - 1 
-            || email.lastIndexOf(".") - email.indexOf("@") <= 1;
+        boolean invalidEmail = email.indexOf("@") == -1
+                || email.lastIndexOf(".") == -1
+                || email.lastIndexOf(".") == email.length() - 1
+                || email.lastIndexOf(".") - email.indexOf("@") <= 1;
         User user = User.find.byId(session().get("username"));
-        
         if (!email.isEmpty() && !invalidEmail) {
             user.setEmail(email);
         }
@@ -67,22 +63,18 @@ public class UserController extends Controller {
             user.setAddress(address);
         }
         user.save();
-        
         session("name", user.getName());
         return redirect("/profile");
     }
-    
     /**
-     * Update user password. Save new password to the database if it is
+     * Update user password. Save new password to the database if it is.
      * valid and old password is correct. Otherwise, return error message.
-     * @return result of API call
+     * @return result of API call.
      */
-    public Result changePass() {
+    public final Result changePass() {
         String oldPass = Form.form().bindFromRequest().get("oldPass");
         String newPass = Form.form().bindFromRequest().get("newPass");
-        
         User user = User.find.byId(session().get("username"));
-        
         if (!user.getPwd().equals(oldPass)) {
             return ok("Current password is incorrect. " 
                       + "Please check for errors.");
@@ -94,75 +86,66 @@ public class UserController extends Controller {
             return ok("Password changed successfully!");
         }
     }
-    
     /**
-     * Render a user's current cart
-     * @return result of API call
+     * Render a user's current cart.
+     * @return result of API call.
      */
-    public Result getCart() {
+    public final Result getCart() {
         User user = User.find.byId(session().get("username"));
         return ok(cart.render(user.getCart()));
     }
-     
     /**
-     * Add an item to cart
-     * @return result of API call
+     * Add an item to cart.
+     * @return result of API call.
      */
-    public Result addToCart() {
+    public final Result addToCart() {
         int id = Integer.parseInt(Form.form().bindFromRequest().get("item"));
-        
         User user = User.find.byId(session().get("username"));
         Item item = Item.find.byId(id);
-        
         if (user.getCart().contains(item)) {
             return ok("Item already added to cart.");
         }
         user.getCart().add(item);
         user.save();
-        
         return ok("Item added to cart.");
     }
-    
     /**
-     * Remove an item from cart
-     * @param id the id of the item to be removed from cart
-     * @return result of API call
+     * Remove an item from cart.
+     * @param id the id of the item to be removed from cart.
+     * @return result of API call.
      */
-    public Result removeFromCart(int id) {
+    public final Result removeFromCart(final int id) {
         User user = User.find.byId(session().get("username"));
         Item item = Item.find.byId(id);
         user.getCart().remove(item);
         user.save();
         return ok("Item removed from cart");
     }
-    
     /**
-     * Show a list of accounts and respective statuses
-     * @return result of API call
+     * Show a list of accounts and respective statuses.
+     * @return result of API call.
      */
-    public Result accounts() {
+    public final Result accounts() {
         List<User> users = User.find.all();
         return ok(admin.render(users));
     }
-    
     /**
-     * Lock/unlock a user account
-     * @param id the username of the user to be lock/unlock
-     * @return result of API call
+     * Lock/unlock a user account.
+     * @param id the username of the user to be lock/unlock.
+     * @return result of API call.
      */
-    public Result toggleStatus(String id) {
+    public final Result toggleStatus(final String id) {
         User user = User.find.byId(id);
         boolean status = user.getLocked();
         user.setLocked(!status);
         user.save();
         return ok("Account status updated");
     }
-    
     /**
-     * Show a list of transactions as financial report
-     * @return result of API call
+     * Show a list of transactions as financial report.
+     * @return result of API call.
      */
-    public Result report() {
+    public final Result report() {
         List<Transaction> records = Transaction.find.all();
         double total = 0.0;
         for (Transaction record : records) {

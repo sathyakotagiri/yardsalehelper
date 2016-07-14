@@ -1,70 +1,77 @@
 package models;
-
 import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
+/**
+ * Transaction entity.
+ */
 @Entity
 public class Transaction extends Model {
+    /**
+     * Unique ID.
+     */
     @Id
     private int transactionId;
-
+    /**
+     * Each customer is given an ID.
+     */
     private String customerId;
+    /**
+     * The total of each sale.
+     */
     private double total;
-
-    public static Finder<Integer, Transaction> find 
+    /**
+     * Finder hash map.
+     */
+    public static final Finder<Integer, Transaction> find
         = new Finder(Transaction.class);
-    
     /**
      * Getters for private fields.
      */
-    
     /**
-     * Get the transaction's ID
-     * @return the transaction's ID
+     * Get the transaction's ID.
+     * @return the transaction's ID.
      */
-    public int getTransactionId() {
+    public final int getTransactionId() {
         return transactionId;
     }
     /**
-     * Get the customer's ID
-     * @return customer's ID
+     * Get the customer's ID.
+     * @return customer's ID.
      */
-    public String getCustomerId() {
+    public final String getCustomerId() {
         return customerId;
     }
     /**
-     * Get the transactional total
-     * @return the transactional total
+     * Get the transactional total.
+     * @return the transactional total.
      */
-    public double getTotal() {
+    public final double getTotal() {
         return total;
     }
-
     /**
      * Setters for private fields.
      */
-    
     /**
-     * Set the transaction's ID
-     * @param transactionId the transaction's new ID
+     * Set the transaction's ID.
+     * @param transactionId the transaction's new ID.
      */
-    public void setTransactionId(int transactionId) {
+    public final void setTransactionId(final int transactionId) {
         this.transactionId = transactionId;
     }
     /**
-     * Set the customer's ID
-     * @param customerId the customer's new ID
+     * Set the customer's ID.
+     * @param customerId the customer's new.
      */
-    public void setCustomerId(String customerId) {
+    public final void setCustomerId(final String customerId) {
         this.customerId = customerId;
     }
     /**
-     * Set the transaction total
-     * @param total the transaction total
+     * Set the transaction total.
+     * @param total the transaction total.
      */
-    public void setTotal(double total) {
+    public final void setTotal(final double total) {
         this.total = total;
     }
 }

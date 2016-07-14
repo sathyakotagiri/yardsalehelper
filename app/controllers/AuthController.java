@@ -1,5 +1,4 @@
 package controllers;
-
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.data.Form;
@@ -11,39 +10,40 @@ import models.User;
 
 import views.html.auth.login;
 import views.html.auth.signup;
-
+/**
+ * Controller for authenticating users.
+ */
 public class AuthController extends Controller {
+    /**
+     * form
+     */
     @Inject
     private FormFactory formF;
-    
     /**
      * Render login page as home page.
      * @return result of API call
      */
-    public Result index() {
+    public final Result index() {
         return ok(login.render(""));
     }
-    
     /**
      * Render signup page.
      * @return result of API call
      */
-    public Result signup() {
+    public final Result signup() {
         return ok(signup.render(""));
     }
-    
     /**
      * Authenticate user. Return response with message if authentication
      * fails. Otherwise redirect the user to the user home page.
      * @return result of API call
      */
-    public Result authenticate() {
+    public final Result authenticate() {
         String username = Form.form().bindFromRequest().get("username");
         String pwd = Form.form().bindFromRequest().get("pwd");
         if (username.isEmpty() || pwd.isEmpty()) {
             return ok(login.render("Please complete all the fields."));
         }
-        
         User user = User.find.byId(username);
         if (user == null) {
             return ok(login.render("User not found"));
@@ -73,14 +73,13 @@ public class AuthController extends Controller {
             return redirect("/user");
         }
     }
-    
     /**
      * User registration. 
      * Store new user if all the fields are complete and validated.
      * Otherwise, return response with message.
      * @return result of API call
      */
-    public Result register() {
+    public final Result register() {
         String username = Form.form().bindFromRequest().get("username");
         String pwd = Form.form().bindFromRequest().get("pwd");
         String email = Form.form().bindFromRequest().get("email");
@@ -101,7 +100,6 @@ public class AuthController extends Controller {
             || email.lastIndexOf(".") - email.indexOf("@") <= 1) {
             return ok(signup.render("Please enter a valid email."));
         }
-        
         User user = User.find.byId(username);
         if (user != null) {
             return ok(signup.render("User already exists. "
@@ -114,12 +112,11 @@ public class AuthController extends Controller {
                                     + "Now you can log in."));
         }
     }
-    
     /**
      * End current user session.
      * @return result of API call
      */
-    public Result logout() {
+    public final Result logout() {
         session().clear();
         return redirect("/");
     }
