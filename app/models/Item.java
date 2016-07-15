@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Entity of the database.
@@ -41,10 +42,30 @@ public class Item extends Model {
     @Lob
     private byte[] image;
     /**
-     * Finder hashmap.
+     * Finder.
      */
-    public static final Finder<Integer, Item> find
-            = new Finder<Integer, Item>(Item.class);
+    private static Finder<Integer, Item> find 
+        = new Finder<Integer, Item>(Item.class);
+    
+    /**
+     * Find an item by ID
+     * @param id the item's ID
+     * @return the item found
+     */
+    public static Item findById(int id) {
+        Item item = find.byId(id);
+        return item;
+    }
+    
+    /**
+     * Find items belonged to the same sale
+     * @param id the sale's ID
+     * @return the item list found
+     */
+    public static List<Item> findBySale(int id) {
+        List<Item> list = find.where().eq("saleId", id).findList();
+        return list;
+    }
     /**
      * Getters for private fields.
      */
@@ -95,6 +116,9 @@ public class Item extends Model {
      * @return item's image as byte array.
      */
     public final byte[] getImage() {
+        if (image == null) {
+            return null;
+        }
         return Arrays.copyOf(image, image.length);
     }
     /**

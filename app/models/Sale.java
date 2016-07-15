@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Sale entity type.
@@ -42,10 +43,30 @@ public class Sale extends Model {
     @Lob
     private byte[] image;
     /**
-     * Finder hash map.
+     * Finder.
      */
-    public static final Finder<Integer, Sale> find
+   private static Finder<Integer, Sale> find 
         = new Finder<Integer, Sale>(Sale.class);
+    
+    /**
+     * Find a sale by ID
+     * @param id the sale's ID
+     * @return the sale found
+     */
+    public static Sale findById(int id) {
+        Sale sale = find.byId(id);
+        return sale;
+    }
+    
+    /**
+     * Find all sales
+     * @return the sale list found
+     */
+    public static List<Sale> findAll() {
+        List<Sale> list = find.all();
+        return list;
+    }
+    
     /**
      * Getters for private fields.
      */
@@ -96,6 +117,9 @@ public class Sale extends Model {
      * @return sale's image as byte array.
      */
     public final byte[] getImage() {
+        if (image == null) {
+            return null;
+        }
         return Arrays.copyOf(image, image.length);
     }
     /**

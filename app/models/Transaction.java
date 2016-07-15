@@ -3,6 +3,7 @@ import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.List;
 /**
  * Transaction entity.
  */
@@ -22,10 +23,20 @@ public class Transaction extends Model {
      */
     private double total;
     /**
-     * Finder hash map.
+     * Finder.
      */
-    public static final Finder<Integer, Transaction> find
+     private static Finder<Integer, Transaction> find 
         = new Finder(Transaction.class);
+    
+    /**
+     * Find all transactions
+     * @return the transaction list found
+     */
+    public static List<Transaction> findAll() {
+        List<Transaction> list = find.all();
+        return list;
+    }
+    
     /**
      * Getters for private fields.
      */

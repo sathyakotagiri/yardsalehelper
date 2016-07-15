@@ -24,7 +24,7 @@ public class UserController extends Controller {
      * @return result of API call.
      */
     public final Result index() {
-        List<Sale> list = Sale.find.all();
+        List<Sale> list = Sale.findAll();
         return ok(sales.render(list));
     }
 
@@ -37,7 +37,7 @@ public class UserController extends Controller {
      * @return result of API call.
      */
     public final Result profile() {
-        User user = User.find.byId(session().get(uName));
+        User user = User.findById(session().get(uName));
         return ok(profile.render(user));
     }
     /**
@@ -54,7 +54,7 @@ public class UserController extends Controller {
                 || email.lastIndexOf('.') == -1
                 || email.lastIndexOf('.') == email.length() - 1
                 || email.lastIndexOf('.') - email.indexOf('@') <= 1;
-        User user = User.find.byId(session().get(uName));
+        User user = User.findById(session().get(uName));
         if (!email.isEmpty() && !invalidEmail) {
             user.setEmail(email);
         }
@@ -79,7 +79,7 @@ public class UserController extends Controller {
     public final Result changePass() {
         String oldPass = Form.form().bindFromRequest().get("oldPass");
         String newPass = Form.form().bindFromRequest().get("newPass");
-        User user = User.find.byId(session().get(uName));
+        User user = User.findById(session().get(uName));
         if (!user.getPwd().equals(oldPass)) {
             return ok("Current password is incorrect. " 
                       + "Please check for errors.");
@@ -96,7 +96,7 @@ public class UserController extends Controller {
      * @return result of API call.
      */
     public final Result getCart() {
-        User user = User.find.byId(session().get(uName));
+        User user = User.findById(session().get(uName));
         return ok(cart.render(user.getCart()));
     }
     /**
@@ -105,8 +105,8 @@ public class UserController extends Controller {
      */
     public final Result addToCart() {
         int id = Integer.parseInt(Form.form().bindFromRequest().get("item"));
-        User user = User.find.byId(session().get(uName));
-        Item item = Item.find.byId(id);
+        User user = User.findById(session().get(uName));
+        Item item = Item.findById(id);
         if (user.getCart().contains(item)) {
             return ok("Item already added to cart.");
         }
@@ -120,8 +120,8 @@ public class UserController extends Controller {
      * @return result of API call.
      */
     public final Result removeFromCart(final int id) {
-        User user = User.find.byId(session().get(uName));
-        Item item = Item.find.byId(id);
+        User user = User.findById(session().get(uName));
+        Item item = Item.findById(id);
         user.getCart().remove(item);
         user.save();
         return ok("Item removed from cart");
@@ -131,7 +131,7 @@ public class UserController extends Controller {
      * @return result of API call.
      */
     public final Result accounts() {
-        List<User> users = User.find.all();
+        List<User> users = User.findAll();
         return ok(admin.render(users));
     }
     /**
@@ -140,7 +140,7 @@ public class UserController extends Controller {
      * @return result of API call.
      */
     public final Result toggleStatus(final String id) {
-        User user = User.find.byId(id);
+        User user = User.findById(id);
         boolean status = user.getLocked();
         user.setLocked(!status);
         user.save();
@@ -151,7 +151,7 @@ public class UserController extends Controller {
      * @return result of API call.
      */
     public final Result report() {
-        List<Transaction> records = Transaction.find.all();
+        List<Transaction> records = Transaction.findAll();
         double total = 0.0;
         for (Transaction record : records) {
             total += record.getTotal();  

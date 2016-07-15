@@ -29,8 +29,8 @@ public class SaleController extends Controller {
      * @return result of API call.
      */
     public final Result index(final int id) {
-        Sale sale = Sale.find.byId(id);
-        List<Item> list = Item.find.where().eq("saleId", id).findList();
+        Sale sale = Sale.findById(id);
+        List<Item> list = Item.findBySale(id);
         return ok(catalog.render(sale, list));
     }
     /**
@@ -39,7 +39,7 @@ public class SaleController extends Controller {
      * @return result of API call.
      */
     public final Result getSaleImg(final int id) {
-        Sale sale = Sale.find.byId(id);
+        Sale sale = Sale.findById(id);
         return ok(sale.getImage());
     }
     /**
@@ -79,8 +79,8 @@ public class SaleController extends Controller {
      * @return result of API call.
      */
     public final Result remove(final int id) {
-        Sale sale = Sale.find.byId(id);
-        List<Item> list = Item.find.where().eq("saleId", id).findList();
+        Sale sale = Sale.findById(id);
+        List<Item> list = Item.findBySale(id);
         list.forEach((item) -> item.delete());
         sale.delete();
         return ok("Sale closed.");
@@ -91,8 +91,8 @@ public class SaleController extends Controller {
      * @return result of API call.
      */
     public final Result getItem(final int id) {
-        Item entry = Item.find.byId(id);
-        Sale sale = Sale.find.byId(entry.getSaleId());
+        Item entry = Item.findById(id);
+        Sale sale = Sale.findById(entry.getSaleId());
         return ok(item.render(sale, entry));
     }
     /**
@@ -101,7 +101,7 @@ public class SaleController extends Controller {
      * @return result of API call.
      */
     public final Result getItemImg(final int id) {
-        Item item = Item.find.byId(id);
+        Item item = Item.findById(id);
         return ok(item.getImage());
     }
     /**
@@ -133,7 +133,7 @@ public class SaleController extends Controller {
                 System.out.println(e.getMessage());
             }
         }
-        Sale sale = Sale.find.byId(saleId);
+        Sale sale = Sale.findById(saleId);
         newItem.setTitle(title);
         newItem.setDescription(description);
         newItem.setPrice(price);
@@ -157,7 +157,7 @@ public class SaleController extends Controller {
         int itemId = Integer.parseInt(idStr);
         MultipartFormData<File> body = request().body().asMultipartFormData();
         FilePart<File> imageFile = body.getFile("file");
-        Item item = Item.find.byId(itemId);
+        Item item = Item.findById(itemId);
         /**
          * Read the image file as byte array if image is uploaded.
          */
@@ -199,7 +199,7 @@ public class SaleController extends Controller {
      * @return result of API call.
      */
     public final Result printTag(final int id) {
-        Item item = Item.find.byId(id);
+        Item item = Item.findById(id);
         if (item == null) {
             item = new Item();
         }
@@ -211,7 +211,7 @@ public class SaleController extends Controller {
      * @return result of API call.
      */
     public final Result printTags(final int id) {
-        List<Item> list = Item.find.where().eq("saleId", id).findList();
+        List<Item> list = Item.findBySale(id);
         return ok(catalogTags.render(list));
     }
 }

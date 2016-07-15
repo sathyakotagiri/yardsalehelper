@@ -4,6 +4,7 @@
     <div id='admin-view'>
         @for(user <- users) {
             <div>
+                <span class='account-roles'>@user.getRoles()</span>
                 <span class='account-name'>@user.getUsername()</span>
                 @if(user.getLocked()) {
                     <span>

@@ -23,7 +23,7 @@ public class TranController extends Controller {
      */
     public final Result addTransaction() {
         String userId = session().get("username");
-        User user = User.find.byId(userId);
+        User user = User.findById(userId);
         //clear user cart.
         List<Item> userCart = user.getCart();
         userCart.clear();
@@ -34,9 +34,9 @@ public class TranController extends Controller {
         for (Map.Entry<String, String> entry : cart.entrySet()) {
             int id = Integer.parseInt(entry.getKey());
             int quantity = Integer.parseInt(entry.getValue());
-            Item item = Item.find.byId(id);
+            Item item = Item.findById(id);
             int saleId = item.getSaleId();
-            Sale sale = Sale.find.byId(saleId);
+            Sale sale = Sale.findById(saleId);
             item.setStock(item.getStock() - quantity);
             item.save();
             if (item.getStock() <= 0) {

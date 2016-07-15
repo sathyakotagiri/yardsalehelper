@@ -49,7 +49,7 @@ public class AuthController extends Controller {
         if (username.isEmpty() || pwd.isEmpty()) {
             return ok(login.render("Please complete all the fields."));
         }
-        User user = User.find.byId(username);
+        User user = User.findById(username);
         if (user == null) {
             return ok(login.render("User not found"));
         } else if (user.getLocked()) {
@@ -105,7 +105,7 @@ public class AuthController extends Controller {
             || email.lastIndexOf('.') - email.indexOf('@') <= 1) {
             return ok(signup.render("Please enter a valid email."));
         }
-        User user = User.find.byId(username);
+        User user = User.findById(username);
         if (user != null) {
             return ok(signup.render("User already exists. "
                                     + "Please log in instead."));
