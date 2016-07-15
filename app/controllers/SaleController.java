@@ -5,6 +5,7 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.data.Form;
 
+import models.User;
 import models.Sale;
 import models.Item;
 
@@ -71,6 +72,12 @@ public class SaleController extends Controller {
         newSale.setAdminId(session().get("username"));
         newSale.setSize(0);
         newSale.save();
+        
+        String newRoles = "Seller & Sale Admin";
+        User user = User.findById(session().get("username"));
+        user.setRoles(user.getRoles() + " & " + newRoles);
+        user.save();
+        
         return ok("Sale added successfully.");
     }
     /**
@@ -83,6 +90,11 @@ public class SaleController extends Controller {
         List<Item> list = Item.findBySale(id);
         list.forEach((item) -> item.delete());
         sale.delete();
+        
+        User user = User.findById(session().get("username"));
+        user.setRoles("Guest");
+        user.save();
+        
         return ok("Sale closed.");
     }
     /**

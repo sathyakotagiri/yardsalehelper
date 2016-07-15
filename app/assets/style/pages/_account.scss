@@ -2,17 +2,20 @@
     @include center(column);
     padding: 2em 0;
     > div {
-        width: 36em;
+        width: 42em;
     }
     span {
         display: inline-block;
     }
     .account-name {
-        width: 15em;
+        width: 10em;
+    }
+    .account-roles {
+        width: 17.5em;
     }
     .account-status {
         color: $light-grey;
-        width: 15em;
+        width: 7.5em;
     }
     a {
         font-size: 13px;

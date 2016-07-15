@@ -89,6 +89,7 @@ public class AuthController extends Controller {
         String pwd = Form.form().bindFromRequest().get("pwd");
         String email = Form.form().bindFromRequest().get("email");
         String name = Form.form().bindFromRequest().get("name");
+        String roles = "Guest";
         if (username.isEmpty() || pwd.isEmpty() 
             || email.isEmpty() || name.isEmpty()) {
             return ok(signup.render("Please complete all the fields."));
@@ -112,6 +113,7 @@ public class AuthController extends Controller {
         } else {
             Form<User> userForm = formF.form(User.class);
             User newUser = userForm.bindFromRequest().get();
+            newUser.setRoles(roles);
             newUser.save();
             return ok(signup.render("Registration successful! " 
                                     + "Now you can log in."));
