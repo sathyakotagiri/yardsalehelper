@@ -27,12 +27,17 @@ public class UserController extends Controller {
         List<Sale> list = Sale.find.all();
         return ok(sales.render(list));
     }
+
+    /**
+     * username variable
+     */
+    private String uName = "username";
     /**
      * Render user profile.
      * @return result of API call.
      */
     public final Result profile() {
-        User user = User.find.byId(session().get("username"));
+        User user = User.find.byId(session().get(uName));
         return ok(profile.render(user));
     }
     /**
@@ -45,11 +50,11 @@ public class UserController extends Controller {
         String name = Form.form().bindFromRequest().get("name");
         String phone = Form.form().bindFromRequest().get("phone");
         String address = Form.form().bindFromRequest().get("address");
-        boolean invalidEmail = email.indexOf("@") == -1
-                || email.lastIndexOf(".") == -1
-                || email.lastIndexOf(".") == email.length() - 1
-                || email.lastIndexOf(".") - email.indexOf("@") <= 1;
-        User user = User.find.byId(session().get("username"));
+        boolean invalidEmail = email.indexOf('@') == -1
+                || email.lastIndexOf('.') == -1
+                || email.lastIndexOf('.') == email.length() - 1
+                || email.lastIndexOf('.') - email.indexOf('@') <= 1;
+        User user = User.find.byId(session().get(uName));
         if (!email.isEmpty() && !invalidEmail) {
             user.setEmail(email);
         }
@@ -74,7 +79,7 @@ public class UserController extends Controller {
     public final Result changePass() {
         String oldPass = Form.form().bindFromRequest().get("oldPass");
         String newPass = Form.form().bindFromRequest().get("newPass");
-        User user = User.find.byId(session().get("username"));
+        User user = User.find.byId(session().get(uName));
         if (!user.getPwd().equals(oldPass)) {
             return ok("Current password is incorrect. " 
                       + "Please check for errors.");
@@ -91,7 +96,7 @@ public class UserController extends Controller {
      * @return result of API call.
      */
     public final Result getCart() {
-        User user = User.find.byId(session().get("username"));
+        User user = User.find.byId(session().get(uName));
         return ok(cart.render(user.getCart()));
     }
     /**
@@ -100,7 +105,7 @@ public class UserController extends Controller {
      */
     public final Result addToCart() {
         int id = Integer.parseInt(Form.form().bindFromRequest().get("item"));
-        User user = User.find.byId(session().get("username"));
+        User user = User.find.byId(session().get(uName));
         Item item = Item.find.byId(id);
         if (user.getCart().contains(item)) {
             return ok("Item already added to cart.");
@@ -115,7 +120,7 @@ public class UserController extends Controller {
      * @return result of API call.
      */
     public final Result removeFromCart(final int id) {
-        User user = User.find.byId(session().get("username"));
+        User user = User.find.byId(session().get(uName));
         Item item = Item.find.byId(id);
         user.getCart().remove(item);
         user.save();

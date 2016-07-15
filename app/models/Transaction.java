@@ -55,23 +55,23 @@ public class Transaction extends Model {
      */
     /**
      * Set the transaction's ID.
-     * @param transactionId the transaction's new ID.
+     * @param transactionIdNew the transaction's new ID.
      */
-    public final void setTransactionId(final int transactionId) {
-        this.transactionId = transactionId;
+    public final void setTransactionId(final int transactionIdNew) {
+        this.transactionId = transactionIdNew;
     }
     /**
      * Set the customer's ID.
-     * @param customerId the customer's new.
+     * @param customerIdNew the customer's new.
      */
-    public final void setCustomerId(final String customerId) {
-        this.customerId = customerId;
+    public final void setCustomerId(final String customerIdNew) {
+        this.customerId = customerIdNew;
     }
     /**
      * Set the transaction total.
-     * @param total the transaction total.
+     * @param totalNew the transaction total.
      */
-    public final void setTotal(final double total) {
-        this.total = total;
+    public final void setTotal(final double totalNew) {
+        this.total = totalNew;
     }
 }

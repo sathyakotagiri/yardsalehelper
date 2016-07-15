@@ -115,58 +115,58 @@ public class User extends Model {
      */
     /**
      * Set the user's username.
-     * @param username the user's new username.
+     * @param usernameNew the user's new username.
      */
-    public final void setUsername(final String username) {
-        this.username = username;
+    public final void setUsername(final String usernameNew) {
+        this.username = usernameNew;
     }
     /**
      * Set the user's password.
-     * @param pwd the user's new password.
+     * @param pwdNew the user's new password.
      */
-    public final void setPwd(final String pwd) {
-        this.pwd = pwd;
+    public final void setPwd(final String pwdNew) {
+        this.pwd = pwdNew;
     }
     /**
      * Set the user's email.
-     * @param email the user's new email.
+     * @param emailNew the user's new email.
      */
-    public final void setEmail(final String email) {
-        this.email = email;
+    public final void setEmail(final String emailNew) {
+        this.email = emailNew;
     }
     /**
      * Set the user's name.
-     * @param name the user's new name.
+     * @param nameNew the user's new name.
      */
-    public final void setName(final String name) {
-        this.name = name;
+    public final void setName(final String nameNew) {
+        this.name = nameNew;
     }
     /**
      * Set the user's phone.
-     * @param phone the user's new phone.
+     * @param phoneNew the user's new phone.
      */
-    public final void setPhone(final String phone) {
-        this.phone = phone;
+    public final void setPhone(final String phoneNew) {
+        this.phone = phoneNew;
     }
     /**
      * Set the user's address.
-     * @param address the user's new address.
+     * @param addressNew the user's new address.
      */
-    public final void setAddress(final String address) {
-        this.address = address;
+    public final void setAddress(final String addressNew) {
+        this.address = addressNew;
     }
     /**
      * Set the user's status.
-     * @param locked the user's status(locked/unlocked).
+     * @param lockedNew the user's status(locked/unlocked).
      */
-    public final void setLocked(final boolean locked) {
-        this.locked = locked;
+    public final void setLocked(final boolean lockedNew) {
+        this.locked = lockedNew;
     }
     /**
      * Set the user's cart.
-     * @param cart the user's new cart.
+     * @param cartNew the user's new cart.
      */
-    public final void setCart(final List<Item> cart) {
-        this.cart = cart;
+    public final void setCart(final List<Item> cartNew) {
+        this.cart = cartNew;
     }
 }

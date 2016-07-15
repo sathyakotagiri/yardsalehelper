@@ -3,6 +3,8 @@ import com.avaje.ebean.Model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import java.util.Arrays;
+
 /**
  * Entity of the database.
  */
@@ -93,58 +95,58 @@ public class Item extends Model {
      * @return item's image as byte array.
      */
     public final byte[] getImage() {
-        return image;
+        return Arrays.copyOf(image, image.length);
     }
     /**
      * Setters for private fields.
      */
     /**
      * Set the item ID.
-     * @param itemId the item's new ID.
+     * @param itemIdNew the item's new ID.
      */
-    public final void setItemId(final int itemId) {
-        this.itemId = itemId;
+    public final void setItemId(final int itemIdNew) {
+        this.itemId = itemIdNew;
     }
     /**
      * Set the sale ID.
-     * @param saleId the sale's new ID.
+     * @param saleIdNew the sale's new ID.
      */
-    public final void setSaleId(final int saleId) {
-        this.saleId = saleId;
+    public final void setSaleId(final int saleIdNew) {
+        this.saleId = saleIdNew;
     }
     /**
      * Set the item's title.
-     * @param title the item's new title.
+     * @param titleNew the item's new title.
      */
-    public final void setTitle(final String title) {
-        this.title = title;
+    public final void setTitle(final String titleNew) {
+        this.title = titleNew;
     }
     /**
      * Set the item's description.
-     * @param description the item's new description.
+     * @param descriptionNew the item's new description.
      */
-    public final void setDescription(final String description) {
-        this.description = description;
+    public final void setDescription(final String descriptionNew) {
+        this.description = descriptionNew;
     }
     /**
      * Set the item's price.
-     * @param price the item's new price.
+     * @param priceNew the item's new price.
      */
-    public final void setPrice(final double price) {
-        this.price = price;
+    public final void setPrice(final double priceNew) {
+        this.price = priceNew;
     }
     /**
      * Set the item's stock.
-     * @param stock the item's new stock.
+     * @param stockNew the item's new stock.
      */
-    public final void setStock(final int stock) {
-        this.stock = stock;
+    public final void setStock(final int stockNew) {
+        this.stock = stockNew;
     }
     /**
      * Set the item's image.
-     * @param image the item's new image as byte array.
+     * @param newImage the new image for the item.
      */
-    public final void setImage(final byte[] image) {
-        this.image = image;
+    public final void setImage(final byte[] newImage) {
+        this.image = Arrays.copyOf(newImage, newImage.length);
     }
 }

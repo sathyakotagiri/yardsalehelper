@@ -4,6 +4,8 @@ import com.avaje.ebean.Model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import java.util.Arrays;
+
 /**
  * Sale entity type.
  */
@@ -94,58 +96,58 @@ public class Sale extends Model {
      * @return sale's image as byte array.
      */
     public final byte[] getImage() {
-        return image;
+        return Arrays.copyOf(image, image.length);
     }
     /**
      * Setters for private fields.
      */
     /**
      * Set the sale ID.
-     * @param saleId the sale's new ID.
+     * @param saleIdNew the sale's new ID.
      */
-    public final void setSaleId(final int saleId) {
-        this.saleId = saleId;
+    public final void setSaleId(final int saleIdNew) {
+        this.saleId = saleIdNew;
     }
     /**
      * Set the seller ID.
-     * @param sellerId the seller's new ID.
+     * @param sellerIdNew the seller's new ID.
      */
-    public final void setSellerId(final String sellerId) {
-        this.sellerId = sellerId;
+    public final void setSellerId(final String sellerIdNew) {
+        this.sellerId = sellerIdNew;
     }
     /**
      * Set the admin ID.
-     * @param adminId the admin's new ID.
+     * @param adminIdNew the admin's new ID.
      */
-    public final void setAdminId(final String adminId) {
-        this.adminId = adminId;
+    public final void setAdminId(final String adminIdNew) {
+        this.adminId = adminIdNew;
     }
     /**
      * Set the sale's title.
-     * @param title the sale's title.
+     * @param titleNew the sale's title.
      */
-    public final void setTitle(final String title) {
-        this.title = title;
+    public final void setTitle(final String titleNew) {
+        this.title = titleNew;
     }
     /**
      * Set the sale's location.
-     * @param location the sale's location.
+     * @param locationNew the sale's location.
      */
-    public final void setLocation(final String location) {
-        this.location = location;
+    public final void setLocation(final String locationNew) {
+        this.location = locationNew;
     }
     /**
      * Set the sale's size.
-     * @param size the sale's size.
+     * @param sizeNew the sale's size.
      */
-    public final void setSize(final int size) {
-        this.size = size;
+    public final void setSize(final int sizeNew) {
+        this.size = sizeNew;
     }
     /**
      * Set the sale's image.
-     * @param image the sale's image as byte array.
+     * @param imageNew the sale's image as byte array.
      */
-    public final void setImage(final byte[] image) {
-        this.image = image;
+    public final void setImage(final byte[] imageNew) {
+        this.image = Arrays.copyOf(imageNew, imageNew.length);
     }
 }

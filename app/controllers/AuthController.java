@@ -19,6 +19,11 @@ public class AuthController extends Controller {
      */
     @Inject
     private FormFactory formF;
+
+    /**
+     * bad login string
+     */
+    private String badLogin = "badLogin";
     /**
      * Render login page as home page.
      * @return result of API call
@@ -50,14 +55,14 @@ public class AuthController extends Controller {
         } else if (user.getLocked()) {
             return ok(login.render("Account locked. Please contact admin."));
         } else if (!user.getPwd().equals(pwd)) {
-            String bad = session().get("badLogin");
+            String bad = session().get(badLogin);
             if (bad == null) {
-                session("badLogin", "0");
+                session(badLogin, "0");
             } else {
                 int b = Integer.parseInt(bad) + 1;
-                session("badLogin", Integer.toString(b));
+                session(badLogin, Integer.toString(b));
             }
-            if (Integer.parseInt(session().get("badLogin")) > 3) {
+            if (Integer.parseInt(session().get(badLogin)) > 3) {
                 user.setLocked(true);
                 user.save();
                 return ok(login.render("Account locked due to" 
@@ -67,7 +72,7 @@ public class AuthController extends Controller {
             return ok(login.render("Authentication fails. " 
                                    + "Please check your credentials."));
         } else {
-            session("badLogin", "0");
+            session(badLogin, "0");
             session("username", username);
             session("name", user.getName());
             return redirect("/user");
@@ -94,10 +99,10 @@ public class AuthController extends Controller {
         if (pwd.length() < 8) {
             return ok(signup.render("Password must be at least 8 characters."));
         }
-        if (email.indexOf(" ") != -1 || email.indexOf("@") == -1 
-            || email.lastIndexOf(".") == -1 
-            || email.lastIndexOf(".") == email.length() - 1 
-            || email.lastIndexOf(".") - email.indexOf("@") <= 1) {
+        if (email.indexOf(' ') != -1 || email.indexOf('@') == -1
+            || email.lastIndexOf('.') == -1
+            || email.lastIndexOf('.') == email.length() - 1
+            || email.lastIndexOf('.') - email.indexOf('@') <= 1) {
             return ok(signup.render("Please enter a valid email."));
         }
         User user = User.find.byId(username);
