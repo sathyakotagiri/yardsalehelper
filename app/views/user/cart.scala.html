@@ -205,7 +205,7 @@
             var yearOfSale = date.getFullYear();
             date = monthOfSale + '/' + dateOfSale + '/' + yearOfSale;
             document.body.innerHTML = emailContents;
-            window.location.href = "mailto:?subject=Garage Sale Receipt for " + date +"&body=" + emailContents;
+            location.href = "mailto:?subject=Garage Sale Receipt for " + date +"&body=" + emailContents;
             document.body.innerHTML = originalContents;
         }
     </script>

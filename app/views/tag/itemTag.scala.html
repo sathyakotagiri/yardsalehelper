@@ -2,24 +2,26 @@
 
 @dashboard("Print Tag for the Item") {
     <div class='tag-container'>
-        <div class='tags'>
+        <div class='tags' id="tags">
+            <a class='blue-btn' onclick="tagsPrint('tags')">Print Tag</a>
+            <a class='red-btn' href='/tag'>Back</a>
+            <br><br>
             <div>
                 <span>#@item.getItemId()</span>
                 <span>@item.getTitle()</span>
                 <span>$@item.getPrice()</span>
+                <span>@item.getDescription()</span>
             </div>
-            <span>@item.getDescription()</span>
         </div>
-        <div>
-            <a class='blue-btn print'>Print</a>
-            <a class='red-btn' href='/tag'>Back</a>
-        </div>
-        <span class='print-note'>Instruction has been sent to the printer.</span>
     </div>
 
     <script>
-        $('.print').click(function() {
-            $('.print-note').show();
-        });
+        function tagsPrint(tags) {
+            var tagContents = document.getElementById(tags).innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = tagContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
     </script>
 }
