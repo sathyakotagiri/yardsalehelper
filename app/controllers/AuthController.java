@@ -15,13 +15,20 @@ import views.html.auth.signup;
  */
 public class AuthController extends Controller {
     /**
-     * form
+     * form.
      */
     @Inject
     private FormFactory formF;
-
     /**
-     * bad login string
+     * Password max length.
+     */
+    private static final int PWD = 8;
+    /**
+     * bad login.
+     */
+    private static final int BAD = 3;
+    /**
+     * bad login string.
      */
     private String badLogin = "badLogin";
     /**
@@ -62,14 +69,14 @@ public class AuthController extends Controller {
                 int b = Integer.parseInt(bad) + 1;
                 session(badLogin, Integer.toString(b));
             }
-            if (Integer.parseInt(session().get(badLogin)) > 3) {
+            if (Integer.parseInt(session().get(badLogin)) > BAD) {
                 user.setLocked(true);
                 user.save();
-                return ok(login.render("Account locked due to" 
-                                       + "multiple failed login attempts. " 
+                return ok(login.render("Account locked due to"
+                                       + "multiple failed login attempts. "
                                        + "Please contact the admin."));
             }
-            return ok(login.render("Authentication fails. " 
+            return ok(login.render("Authentication fails. "
                                    + "Please check your credentials."));
         } else {
             session(badLogin, "0");
@@ -79,7 +86,7 @@ public class AuthController extends Controller {
         }
     }
     /**
-     * User registration. 
+     * User registration.
      * Store new user if all the fields are complete and validated.
      * Otherwise, return response with message.
      * @return result of API call
@@ -90,14 +97,14 @@ public class AuthController extends Controller {
         String email = Form.form().bindFromRequest().get("email");
         String name = Form.form().bindFromRequest().get("name");
         String roles = "Guest";
-        if (username.isEmpty() || pwd.isEmpty() 
+        if (username.isEmpty() || pwd.isEmpty()
             || email.isEmpty() || name.isEmpty()) {
             return ok(signup.render("Please complete all the fields."));
         }
         if (username.contains(" ")) {
             return ok(signup.render("Username cannot contain whitespace."));
         }
-        if (pwd.length() < 8) {
+        if (pwd.length() < PWD) {
             return ok(signup.render("Password must be at least 8 characters."));
         }
         if (email.indexOf(' ') != -1 || email.indexOf('@') == -1
@@ -115,7 +122,7 @@ public class AuthController extends Controller {
             User newUser = userForm.bindFromRequest().get();
             newUser.setRoles(roles);
             newUser.save();
-            return ok(signup.render("Registration successful! " 
+            return ok(signup.render("Registration successful! "
                                     + "Now you can log in."));
         }
     }

@@ -25,18 +25,16 @@ public class Transaction extends Model {
     /**
      * Finder.
      */
-     private static Finder<Integer, Transaction> find 
+     private static Finder<Integer, Transaction> find
         = new Finder(Transaction.class);
-    
     /**
-     * Find all transactions
+     * Find all transactions.
      * @return the transaction list found
      */
     public static List<Transaction> findAll() {
-        List<Transaction> list = find.all();
-        return list;
+        return find.all();
+
     }
-    
     /**
      * Getters for private fields.
      */

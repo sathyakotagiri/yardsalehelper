@@ -27,9 +27,12 @@ public class UserController extends Controller {
         List<Sale> list = Sale.findAll();
         return ok(sales.render(list));
     }
-
     /**
-     * username variable
+     * Password max length.
+     */
+    private static final int PWD = 8;
+    /**
+     * username variable.
      */
     private String uName = "username";
     /**
@@ -81,9 +84,9 @@ public class UserController extends Controller {
         String newPass = Form.form().bindFromRequest().get("newPass");
         User user = User.findById(session().get(uName));
         if (!user.getPwd().equals(oldPass)) {
-            return ok("Current password is incorrect. " 
+            return ok("Current password is incorrect. "
                       + "Please check for errors.");
-        } else if (newPass.length() < 8) {
+        } else if (newPass.length() < PWD) {
             return ok("New password must be at least 8 characters.");
         } else {
             user.setPwd(newPass);
@@ -154,7 +157,7 @@ public class UserController extends Controller {
         List<Transaction> records = Transaction.findAll();
         double total = 0.0;
         for (Transaction record : records) {
-            total += record.getTotal();  
+            total += record.getTotal();
         }
         return ok(report.render(records, total));
     }

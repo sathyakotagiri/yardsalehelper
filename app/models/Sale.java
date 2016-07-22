@@ -45,28 +45,25 @@ public class Sale extends Model {
     /**
      * Finder.
      */
-   private static Finder<Integer, Sale> find 
+   private static Finder<Integer, Sale> find
         = new Finder<Integer, Sale>(Sale.class);
-    
     /**
-     * Find a sale by ID
+     * Find a sale by ID.
      * @param id the sale's ID
      * @return the sale found
      */
-    public static Sale findById(int id) {
-        Sale sale = find.byId(id);
-        return sale;
+    public static Sale findById(final int id) {
+        return find.byId(id);
+
     }
-    
     /**
-     * Find all sales
+     * Find all sales.
      * @return the sale list found
      */
     public static List<Sale> findAll() {
-        List<Sale> list = find.all();
-        return list;
+        return find.all();
+
     }
-    
     /**
      * Getters for private fields.
      */

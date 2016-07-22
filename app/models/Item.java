@@ -44,27 +44,25 @@ public class Item extends Model {
     /**
      * Finder.
      */
-    private static Finder<Integer, Item> find 
+    private static Finder<Integer, Item> find
         = new Finder<Integer, Item>(Item.class);
-    
     /**
-     * Find an item by ID
+     * Find an item by ID.
      * @param id the item's ID
      * @return the item found
      */
-    public static Item findById(int id) {
-        Item item = find.byId(id);
-        return item;
+    public static Item findById(final int id) {
+        return find.byId(id);
+
     }
-    
     /**
-     * Find items belonged to the same sale
+     * Find items belonged to the same sale.
      * @param id the sale's ID
      * @return the item list found
      */
-    public static List<Item> findBySale(int id) {
-        List<Item> list = find.where().eq("saleId", id).findList();
-        return list;
+    public static List<Item> findBySale(final int id) {
+        return find.where().eq("saleId", id).findList();
+
     }
     /**
      * Getters for private fields.

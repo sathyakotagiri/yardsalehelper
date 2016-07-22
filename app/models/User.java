@@ -42,39 +42,35 @@ public class User extends Model {
      */
     private boolean locked;
      /**
-     * User roles
+     * User roles.
      */
     private String roles;
-    
-    
     /**
-     * User cart
+     * User cart.
      */
     @ManyToMany
     private List<Item> cart = new ArrayList<Item>();
     /**
      * Finder.
      */
-    private static Finder<String, User> find 
+    private static Finder<String, User> find
         = new Finder<String, User>(User.class);
-    
     /**
-     * Find a user by username (ID)
+     * Find a user by username (ID).
      * @param id the user's username (ID)
      * @return the user found
      */
-    public static User findById(String id) {
-        User user = find.byId(id);
-        return user;
+    public static User findById(final String id) {
+        return find.byId(id);
+
     }
-    
     /**
-     * Find all users
+     * Find all users.
      * @return the user list found
      */
     public static List<User> findAll() {
-        List<User> list = find.all();
-        return list;
+        return find.all();
+
     }
     /**
      * Getters for private fields.
@@ -196,7 +192,7 @@ public class User extends Model {
     }
     /**
      * Set the user's status.
-     * @param lockedNew the user's status(locked/unlocked).
+     * @param roles user roles
      */
     public final void setRoles(final String roles) {
         this.roles = roles;
