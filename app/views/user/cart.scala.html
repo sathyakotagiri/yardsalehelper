@@ -43,28 +43,23 @@
                                     </select>
                                     <span id='quantity-msg'></span>
                                 </div>
-                                <div><a class='cart-item-delete'>Delete</a></div>
+                                <div><a class='cart-item-delete' id='cart-item-delete-@index'>Delete</a></div>
                             </div>
-                    
+                
                             <script>
                                 //remove an item from cart
-                                var buttons = document.getElementsByClassName('cart-item-delete');
-                                for (var i = 0; i < buttons.length; i++) {
-                                    buttons[i].onclick = function() {
-                                        var url = '/cart/@shoppingCart.get(shoppingCart.length - 1 - index).getItemId()';
-                                        $.ajax({
-                                            url: url,
-                                            type: 'DELETE',
-                                            success: function(data, status) {
-                                                location.reload();
-                                                return;
-                                            },
-                                            error: function() {
-                                                console.log("Error occurs. Please try again.");
-                                            }
-                                        });
-                                    }
-                                }
+                                $('#cart-item-delete-@index').click(function() {
+                                    $.ajax({
+                                        url: '/cart/' + @item.getItemId(),
+                                        type: 'DELETE',
+                                        success: function(data, status) {
+                                            location.reload();
+                                        },
+                                        error: function() {
+                                            console.log("Error occurs. Please try again.");
+                                        }
+                                    });
+                                });
                             </script>
                         </div>
                     }

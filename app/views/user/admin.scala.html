@@ -2,24 +2,25 @@
 
 @dashboard("Manage Accounts") {
     <div id='admin-view'>
-        @for(user <- users) {
+        @for((user, index) <- users.zipWithIndex) {
             <div>
                 <span class='account-name'>@user.getUsername()</span>
                 <span class='account-roles'>@user.getRoles()</span>
                 @if(user.getLocked()) {
                     <span>
                         <span class='account-status'>Locked</span>
-                        <a class='red-btn update-status'>Unlock</a>
+                        <a class='red-btn update-status' id='update-status-@index'>Unlock</a>
                     </span>
                 } else {
                     <span>
                         <span class='account-status'>Active</span>
-                        <a class='blue-btn update-status'>Lock</a>
+                        <a class='blue-btn update-status' id='update-status-@index'>Lock</a>
                     </span>
                 }
             </div>
             <script>
-                $('.update-status').click(function() {
+                $('#update-status-@index').click(function() {
+                    console.log("Hi");
                     $.ajax({
                         url: '/accounts/@user.getUsername()',
                         type: 'PUT',
