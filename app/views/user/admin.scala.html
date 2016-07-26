@@ -20,7 +20,6 @@
             </div>
             <script>
                 $('#update-status-@index').click(function() {
-                    console.log("Hi");
                     $.ajax({
                         url: '/accounts/@user.getUsername()',
                         type: 'PUT',
