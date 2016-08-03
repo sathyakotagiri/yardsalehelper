@@ -26,7 +26,7 @@ public class AuthController extends Controller {
     /**
      * bad login.
      */
-    private static final int BAD = 3;
+    private static final int BAD = 2;
     /**
      * bad login string.
      */
@@ -69,14 +69,14 @@ public class AuthController extends Controller {
                 int b = Integer.parseInt(bad) + 1;
                 session(badLogin, Integer.toString(b));
             }
-            if (Integer.parseInt(session().get(badLogin)) > BAD) {
+            if (Integer.parseInt(session().get(badLogin)) >= BAD) {
                 user.setLocked(true);
                 user.save();
                 return ok(login.render("Account locked due to"
-                                       + "multiple failed login attempts. "
+                                       + " multiple failed login attempts. "
                                        + "Please contact the admin."));
             }
-            return ok(login.render("Authentication fails. "
+            return ok(login.render("Authentication failed. "
                                    + "Please check your credentials."));
         } else {
             session(badLogin, "0");
