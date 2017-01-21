@@ -1,6 +1,9 @@
 # Yard-Sale-Helper
 
-### CS2340 Project
+# What is this project?
+#### This is a web based project created using HTML, JavaScript, CSS, Scala, etc. The aim of this project is to create a website where a user can login to buy or sell items.  
+
+### Summer 2016 Class Group Project
 ###### Note: Instead of pushing to master, please push to branch 'develop'. This is to prevent the master branch from being polluted when mistakes are made.
 
 ###### Important! Each time you want to run the app using 'activator run', do this first: (if rhc client tools were properly set up)  
