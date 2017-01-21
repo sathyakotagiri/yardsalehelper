@@ -1,4 +1,4 @@
-# yard-sale-helper
+# Yard-Sale-Helper
 
 ### CS2340 Project
 ###### Note: Instead of pushing to master, please push to branch 'develop'. This is to prevent the master branch from being polluted when mistakes are made.
